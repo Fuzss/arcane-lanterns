@@ -1,5 +1,6 @@
 package fuzs.arcanelanterns.world.level.block;
 
+import com.mojang.serialization.MapCodec;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.world.level.block.entity.SparkBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -17,12 +18,17 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 public class SparkBlock extends BaseEntityBlock {
+    public static final MapCodec<SparkBlock> CODEC = simpleCodec(SparkBlock::new);
     private static final VoxelShape SHAPE = Block.box(6.0, 6.0, 6.0, 10.0, 10.0, 10.0);
 
     public SparkBlock(BlockBehaviour.Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -43,7 +49,7 @@ public class SparkBlock extends BaseEntityBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (level.getBlockEntity(pos) instanceof SparkBlockEntity blockEntity) {
-            if (level.getBlockState(blockEntity.pos).is(ModRegistry.FERAL_LANTERN_BLOCK.get())) {
+            if (level.getBlockState(blockEntity.pos).is(ModRegistry.FERAL_LANTERN_BLOCK.value())) {
                 return;
             }
         }
@@ -52,16 +58,16 @@ public class SparkBlock extends BaseEntityBlock {
 
     @Override
     protected void spawnDestroyParticles(Level level, Player player, BlockPos pos, BlockState state) {
-
+        // NO-OP
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide()) {
             level.levelEvent(null, LevelEvent.SOUND_EXTINGUISH_FIRE, pos, 0);
         }
 
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.animal.Animal;
 
 public class BreedingHeartsHandler {
 
-    public static EventResult onLivingUpdate(LivingEntity entity) {
+    public static EventResult onLivingTick(LivingEntity entity) {
         // fixes a vanilla bug where breeding hearts will only spawn once around a mob in love instead of continuing to appear
         // this fix was lying around anyway, and it kinda fits with the love lantern, so it is included in this mod
         if (!entity.level().isClientSide &&  entity instanceof Animal animal) {

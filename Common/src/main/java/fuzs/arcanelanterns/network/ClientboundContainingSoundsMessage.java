@@ -19,7 +19,7 @@ public record ClientboundContainingSoundsMessage(
 
             @Override
             public void handle(ClientboundContainingSoundsMessage message, Minecraft client, ClientPacketListener handler, LocalPlayer player, ClientLevel level) {
-                level.playLocalSound(message.pos, SoundEvents.CHAIN_BREAK, SoundSource.BLOCKS, 1, 0.6f, true);
+                level.playLocalSound(message.pos, SoundEvents.CHAIN_BREAK, SoundSource.BLOCKS, 1, 0.6F, true);
             }
         };
     }

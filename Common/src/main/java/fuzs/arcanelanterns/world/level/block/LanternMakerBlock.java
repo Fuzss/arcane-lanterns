@@ -1,7 +1,9 @@
 package fuzs.arcanelanterns.world.level.block;
 
+import com.mojang.serialization.MapCodec;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.world.level.block.entity.LanternMakerBlockEntity;
+import fuzs.puzzleslib.api.block.v1.entity.TickingEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -14,8 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,10 +23,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
-public class LanternMakerBlock extends BaseEntityBlock {
+public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityBlock<LanternMakerBlockEntity> {
+    public static final MapCodec<LanternMakerBlock> CODEC = simpleCodec(LanternMakerBlock::new);
     public static final VoxelShape TOP_SHAPE = Block.box(1.0, 12.0, 1.0, 15.0, 16.0, 15.0);
     public static final VoxelShape CENTER_SHAPE = Block.box(5.0, 2.0, 5.0, 11.0, 12.0, 11.0);
     public static final VoxelShape BASE_SHAPE = Block.box(3.0, 0.0, 3.0, 13.0, 2.0, 13.0);
@@ -36,15 +35,14 @@ public class LanternMakerBlock extends BaseEntityBlock {
         super(properties);
     }
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new LanternMakerBlockEntity(pos, state);
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !level.isClientSide ? createTickerHelper(blockEntityType, ModRegistry.LANTERN_MAKER_BLOCK_ENTITY.get(), LanternMakerBlockEntity::tick) : null;
+    public BlockEntityType<? extends LanternMakerBlockEntity> getBlockEntityType() {
+        return ModRegistry.LANTERN_MAKER_BLOCK_ENTITY.value();
     }
 
     @Override
@@ -98,11 +96,7 @@ public class LanternMakerBlock extends BaseEntityBlock {
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            if (level.getBlockEntity(pos) instanceof LanternMakerBlockEntity blockEntity) {
-                Containers.dropContents(level, pos, blockEntity);
-            }
-            super.onRemove(state, level, pos, newState, isMoving);
-        }
+        Containers.dropContentsOnDestroy(state, newState, level, pos);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 }

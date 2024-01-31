@@ -1,0 +1,23 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "value": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "minecraft:shulker_shell"
+      },
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:snowball"
+      },
+      {
+        "item": "minecraft:phantom_membrane"
+      }
+    ],
+    "result": {
+      "item": "arcanelanterns:brilliant_lantern"
+    }
+  }
+}

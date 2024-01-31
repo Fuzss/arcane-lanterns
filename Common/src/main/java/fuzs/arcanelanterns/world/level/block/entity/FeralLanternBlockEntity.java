@@ -6,48 +6,64 @@ import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FeralLanternBlockEntity extends LanternBlockEntity {
-    private static final String TAG_FLARES = "PlacedFlares";
+    public static final String TAG_PLACED_FLARES = ArcaneLanterns.id("placed_flares").toString();
 
     private int placedFlares;
 
     public FeralLanternBlockEntity(BlockPos pos, BlockState state) {
-        super(ModRegistry.FERAL_LANTERN_BLOCK_ENTITY.get(), pos, state);
+        super(ModRegistry.FERAL_LANTERN_BLOCK_ENTITY.value(), pos, state);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, FeralLanternBlockEntity blockEntity) {
+    @Override
+    public void serverTick() {
         ServerConfig.FeralLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).feralLantern;
-        if (++blockEntity.count > config.delay && !blockEntity.isDonePlacing()) {
-            BlockPos.MutableBlockPos mutable = pos.mutable();
+        if (++this.ticks > config.delay && !this.isDonePlacing()) {
+            BlockPos.MutableBlockPos mutable = this.getBlockPos().mutable();
             mutable.move(-config.horizontalRange, -config.verticalRange, -config.horizontalRange);
-            mutable.move(level.random.nextInt(config.horizontalRange * 2), level.random.nextInt(config.verticalRange * 2), level.random.nextInt(config.horizontalRange * 2));
+            mutable.move(this.getLevel().random.nextInt(config.horizontalRange * 2),
+                    this.getLevel().random.nextInt(config.verticalRange * 2),
+                    this.getLevel().random.nextInt(config.horizontalRange * 2)
+            );
             // max manhattan distance approximation
             int maxDistance = 5 * (config.horizontalRange + config.verticalRange) / 7;
-            while (mutable.closerThan(pos, maxDistance) && !level.isOutsideBuildHeight(mutable) && level.getBlockState(mutable).getCollisionShape(level, mutable).isEmpty()) {
+            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
+                    .isOutsideBuildHeight(mutable) && this.getLevel()
+                    .getBlockState(mutable)
+                    .getCollisionShape(this.getLevel(), mutable)
+                    .isEmpty()) {
                 mutable.move(Direction.DOWN);
             }
-            while (mutable.closerThan(pos, maxDistance) && !level.isOutsideBuildHeight(mutable) && !level.getBlockState(mutable).getCollisionShape(level, mutable).isEmpty()) {
+            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
+                    .isOutsideBuildHeight(mutable) && !this.getLevel()
+                    .getBlockState(mutable)
+                    .getCollisionShape(this.getLevel(), mutable)
+                    .isEmpty()) {
                 mutable.move(Direction.UP);
             }
-            if (level.getMaxLocalRawBrightness(mutable) < config.maxLightLevel) {
-                if (!level.getBlockState(mutable.below()).getCollisionShape(level, mutable.below()).isEmpty()) {
+            if (this.getLevel().getMaxLocalRawBrightness(mutable) < config.maxLightLevel) {
+                if (!this.getLevel()
+                        .getBlockState(mutable.below())
+                        .getCollisionShape(this.getLevel(), mutable.below())
+                        .isEmpty()) {
                     mutable.move(Direction.UP, 3);
-                    for (int i = 0; i < 3 && mutable.closerThan(pos, maxDistance) && !level.getBlockState(mutable).isAir(); i++) {
+                    for (int i = 0; i < 3 && mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
+                            .getBlockState(mutable)
+                            .isAir(); i++) {
                         mutable.move(Direction.DOWN);
                     }
-                    if (level.getBlockState(mutable).isAir()) {
-                        level.setBlockAndUpdate(mutable, ModRegistry.SPARK_BLOCK.get().defaultBlockState());
-                        if (level.getBlockEntity(mutable) instanceof SparkBlockEntity sparkBlockEntity) {
-                            sparkBlockEntity.pos = pos;
+                    if (this.getLevel().getBlockState(mutable).isAir()) {
+                        this.getLevel().setBlockAndUpdate(mutable, ModRegistry.SPARK_BLOCK.value().defaultBlockState());
+                        if (this.getLevel().getBlockEntity(mutable) instanceof SparkBlockEntity sparkBlockEntity) {
+                            sparkBlockEntity.pos = this.getBlockPos();
                         }
-                        blockEntity.placedFlares++;
+                        this.placedFlares++;
                     }
                 }
             }
-            blockEntity.count = 0;
+            this.ticks = 0;
         }
     }
 
@@ -56,14 +72,14 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt(TAG_FLARES, this.placedFlares);
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.placedFlares = tag.getInt(TAG_PLACED_FLARES);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.placedFlares = tag.getInt(TAG_FLARES);
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt(TAG_PLACED_FLARES, this.placedFlares);
     }
 }

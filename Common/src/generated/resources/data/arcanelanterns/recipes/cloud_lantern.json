@@ -1,0 +1,23 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "value": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "minecraft:phantom_membrane"
+      },
+      {
+        "item": "minecraft:soul_torch"
+      },
+      {
+        "item": "minecraft:snow_block"
+      },
+      {
+        "item": "minecraft:white_wool"
+      }
+    ],
+    "result": {
+      "item": "arcanelanterns:cloud_lantern"
+    }
+  }
+}

@@ -18,28 +18,40 @@ import java.util.List;
 public class BrilliantLanternBlockEntity extends LanternBlockEntity {
 
     public BrilliantLanternBlockEntity(BlockPos pos, BlockState state) {
-        super(ModRegistry.BRILLIANT_LANTERN_BLOCK_ENTITY.get(), pos, state);
+        super(ModRegistry.BRILLIANT_LANTERN_BLOCK_ENTITY.value(), pos, state);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, BrilliantLanternBlockEntity blockEntity) {
+    @Override
+    public void serverTick() {
         ServerConfig.BrilliantLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).brilliantLantern;
-        if (++blockEntity.count <= config.delay) return;
+        if (++this.ticks <= config.delay) return;
         final int horizontalRange = config.horizontalRange;
         final int verticalRange = config.verticalRange;
-        List<Animal> animals = level.getEntitiesOfClass(Animal.class, new AABB(pos.getX() + 0.5 - horizontalRange, pos.getY() + 0.5 - verticalRange, pos.getZ() + 0.5 - horizontalRange, pos.getX() + 0.5 + horizontalRange, pos.getY() + 0.5 + verticalRange, pos.getZ() + 0.5 + horizontalRange), BrilliantLanternBlockEntity::isValidAnimal);
+        List<Animal> animals = this.getLevel()
+                .getEntitiesOfClass(Animal.class,
+                        new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
+                                this.getBlockPos().getY() + 0.5 - verticalRange,
+                                this.getBlockPos().getZ() + 0.5 - horizontalRange,
+                                this.getBlockPos().getX() + 0.5 + horizontalRange,
+                                this.getBlockPos().getY() + 0.5 + verticalRange,
+                                this.getBlockPos().getZ() + 0.5 + horizontalRange
+                        ),
+                        BrilliantLanternBlockEntity::isValidAnimal
+                );
         if (!animals.isEmpty()) {
             Animal animal = animals.get(0);
             // make sure equipment still drops, but nothing else
-            killWithoutLoot(level, animal);
+            killWithoutLoot(this.getLevel(), animal);
             // allow experience to drop
             animal.setLastHurtByPlayer(null);
             ((LivingEntityAccessor) animal).arcanelanterns$dropExperience();
         }
-        blockEntity.count = 0;
+        this.ticks = 0;
     }
 
     private static boolean isValidAnimal(Animal animal) {
-        return animal.shouldDropExperience() && (!(animal instanceof TamableAnimal tamableAnimal) || !tamableAnimal.isTame()) && !ArcaneLanterns.CONFIG.get(ServerConfig.class).brilliantLantern.blacklist.contains(animal.getType());
+        return animal.shouldDropExperience() && (!(animal instanceof TamableAnimal tamableAnimal) || !tamableAnimal.isTame()) && !ArcaneLanterns.CONFIG.get(
+                ServerConfig.class).brilliantLantern.blacklist.contains(animal.getType());
     }
 
     private static void killWithoutLoot(Level level, LivingEntity entity) {
