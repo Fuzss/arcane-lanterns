@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "arcanelanterns:block/life_lantern"
+    },
+    "hanging=true": {
+      "model": "arcanelanterns:block/hanging_life_lantern"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "arcanelanterns:block/boreal_lantern"
+    },
+    "hanging=true": {
+      "model": "arcanelanterns:block/hanging_boreal_lantern"
+    }
+  }
+}
