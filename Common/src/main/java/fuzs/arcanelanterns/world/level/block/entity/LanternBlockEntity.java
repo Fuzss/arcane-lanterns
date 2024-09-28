@@ -3,6 +3,7 @@ package fuzs.arcanelanterns.world.level.block.entity;
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,14 +22,14 @@ public abstract class LanternBlockEntity extends BlockEntity implements TickingB
     public abstract void serverTick();
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         this.ticks = tag.getInt(TAG_TICKS);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.putInt(TAG_TICKS, this.ticks);
     }
 }

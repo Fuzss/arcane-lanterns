@@ -10,8 +10,6 @@ import net.minecraft.world.entity.EntityType;
 import java.util.List;
 
 public class ServerConfig implements ConfigCore {
-    @Config(description = "Allow falling at normal speed while the slow falling effect is active when sneaking. The player will still not take any fall damage.")
-    public boolean slowFallingQuickDescent = true;
     @Config
     public EffectLanternConfig borealLantern = new EffectLanternConfig(2, 10, 10, 5);
     @Config
@@ -61,7 +59,12 @@ public class ServerConfig implements ConfigCore {
     }
 
     public static class BrilliantLanternConfig extends LanternConfig {
-        @Config(name = "blacklist", description = {"Animals the briliant lantern will not turn into experience.", ConfigDataSet.CONFIG_DESCRIPTION})
+        @Config(name = "blacklist",
+                description = {
+                        "Animals the briliant lantern will not turn into experience.",
+                        ConfigDataSet.CONFIG_DESCRIPTION
+                }
+        )
         List<String> blacklistRaw = Lists.newArrayList();
 
         public ConfigDataSet<EntityType<?>> blacklist;

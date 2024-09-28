@@ -3,6 +3,7 @@ package fuzs.arcanelanterns.world.level.block.entity;
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,14 +19,14 @@ public class SparkBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.pos = NbtUtils.readBlockPos(tag.getCompound(TAG_POSITION));
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        NbtUtils.readBlockPos(tag, TAG_POSITION).ifPresent(pos -> this.pos = pos);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.put(TAG_POSITION, NbtUtils.writeBlockPos(this.pos));
     }
 }

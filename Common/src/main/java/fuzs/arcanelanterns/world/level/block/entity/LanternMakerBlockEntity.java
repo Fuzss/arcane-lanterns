@@ -5,8 +5,9 @@ import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.network.ClientboundCraftLanternParticlesMessage;
 import fuzs.arcanelanterns.world.item.crafting.LanternMakingRecipe;
 import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
-import fuzs.puzzleslib.api.container.v1.ContainerImpl;
+import fuzs.puzzleslib.api.container.v1.ListBackedContainer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -24,8 +26,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class LanternMakerBlockEntity extends BlockEntity implements CraftingContainer, ContainerImpl, TickingBlockEntity {
-    private final RecipeManager.CachedCheck<CraftingContainer, LanternMakingRecipe> quickCheck;
+import java.util.List;
+
+public class LanternMakerBlockEntity extends BlockEntity implements CraftingContainer, ListBackedContainer, TickingBlockEntity {
+    private final RecipeManager.CachedCheck<CraftingInput, LanternMakingRecipe> quickCheck;
     private final NonNullList<ItemStack> items = NonNullList.withSize(16, ItemStack.EMPTY);
 
     public LanternMakerBlockEntity(BlockPos pos, BlockState state) {
@@ -38,23 +42,19 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
         BlockPos posAbove = this.getBlockPos().above();
         BlockState stateAbove = this.getLevel().getBlockState(posAbove);
         if (stateAbove.is(Blocks.LANTERN) || stateAbove.is(Blocks.SOUL_LANTERN)) {
-            ItemStack result = this.quickCheck.getRecipeFor(this, this.getLevel())
-                    .map(recipe -> recipe.value().assemble(this, this.getLevel().registryAccess()))
-                    .orElse(ItemStack.EMPTY);
+            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), this.getLevel()).map(
+                    recipe -> recipe.value().assemble(this.asCraftInput(), this.getLevel().registryAccess())).orElse(
+                    ItemStack.EMPTY);
             if (!result.isEmpty()) {
                 for (ItemStack stack : this.items) {
                     if (!stack.isEmpty()) stack.shrink(1);
                 }
                 this.setChanged();
                 this.getLevel().destroyBlock(posAbove, false);
-                dropItemStack(this.getLevel(),
-                        this.getBlockPos().getX() + 0.5,
-                        this.getBlockPos().getY() + 1.0,
-                        this.getBlockPos().getZ() + 0.5,
-                        result
+                dropItemStack(this.getLevel(), this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.0,
+                        this.getBlockPos().getZ() + 0.5, result
                 );
-                ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(),
-                        (ServerLevel) this.getLevel(),
+                ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(), (ServerLevel) this.getLevel(),
                         new ClientboundCraftLanternParticlesMessage(this.getBlockPos())
                 );
             } else {
@@ -73,8 +73,8 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     private static void destroyBlockDropCentered(Level level, BlockState state, BlockPos pos) {
         BlockEntity blockEntityAbove = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
         level.destroyBlock(pos, false);
-        Block.getDrops(state, (ServerLevel) level, pos, blockEntityAbove, null, ItemStack.EMPTY)
-                .forEach((itemStack) -> {
+        Block.getDrops(state, (ServerLevel) level, pos, blockEntityAbove, null, ItemStack.EMPTY).forEach(
+                (itemStack) -> {
                     dropItemStack(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, itemStack);
                 });
         state.spawnAfterBreak((ServerLevel) level, pos, ItemStack.EMPTY, true);
@@ -98,7 +98,12 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     }
 
     @Override
-    public NonNullList<ItemStack> getItems() {
+    public List<ItemStack> getItems() {
+        return this.getContainerItems();
+    }
+
+    @Override
+    public NonNullList<ItemStack> getContainerItems() {
         return this.items;
     }
 
@@ -108,16 +113,16 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         this.items.clear();
-        ContainerHelper.loadAllItems(tag, this.items);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        ContainerHelper.saveAllItems(tag, this.items);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.items, registries);
     }
 
     @Override
@@ -134,7 +139,7 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
     }
 }

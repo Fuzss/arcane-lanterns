@@ -7,7 +7,6 @@ import fuzs.arcanelanterns.world.level.block.LanternMakerBlock;
 import fuzs.arcanelanterns.world.level.block.SparkBlock;
 import fuzs.arcanelanterns.world.level.block.entity.*;
 import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
@@ -89,7 +88,7 @@ public class ModRegistry {
             () -> new LanternMakingRecipe.Serializer()
     );
 
-    public static void touch() {
+    public static void bootstrap() {
 
     }
 }

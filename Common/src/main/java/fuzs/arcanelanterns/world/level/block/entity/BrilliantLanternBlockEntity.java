@@ -44,7 +44,8 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
             killWithoutLoot(this.getLevel(), animal);
             // allow experience to drop
             animal.setLastHurtByPlayer(null);
-            ((LivingEntityAccessor) animal).arcanelanterns$dropExperience();
+            ((LivingEntityAccessor) animal).arcanelanterns$dropExperience(null);
+            animal.skipDropExperience();
         }
         this.ticks = 0;
     }

@@ -22,23 +22,22 @@ public class LifeLanternBlockEntity extends LanternBlockEntity {
         if (++this.ticks <= config.delay) return;
         final int horizontalRange = config.horizontalRange;
         final int verticalRange = config.verticalRange;
-        BlockPos targetPos = this.getBlockPos()
-                .offset(this.getLevel().random.nextInt(horizontalRange * 2) - horizontalRange,
-                        this.getLevel().random.nextInt(verticalRange * 2) - verticalRange,
-                        this.getLevel().random.nextInt(horizontalRange * 2) - horizontalRange
-                );
-        while (!(this.getLevel()
-                .getBlockState(targetPos)
-                .getBlock() instanceof BonemealableBlock) && targetPos.closerThan(this.getBlockPos(), 6.0)) {
+        BlockPos targetPos = this.getBlockPos().offset(
+                this.getLevel().random.nextInt(horizontalRange * 2) - horizontalRange,
+                this.getLevel().random.nextInt(verticalRange * 2) - verticalRange,
+                this.getLevel().random.nextInt(horizontalRange * 2) - horizontalRange
+        );
+        while (!(this.getLevel().getBlockState(targetPos).getBlock() instanceof BonemealableBlock) &&
+                targetPos.closerThan(this.getBlockPos(), 6.0)) {
             targetPos = targetPos.subtract(new Vec3i(0, 1, 0));
         }
         BlockState targetState = this.getLevel().getBlockState(targetPos);
-        if (targetState.getBlock() instanceof BonemealableBlock cropBlock && cropBlock.isValidBonemealTarget(this.getLevel(),
-                targetPos,
-                targetState
-        ) && cropBlock.isBonemealSuccess(this.getLevel(), this.getLevel().random, targetPos, targetState)) {
+        if (targetState.getBlock() instanceof BonemealableBlock cropBlock && cropBlock.isValidBonemealTarget(
+                this.getLevel(), targetPos, targetState) && cropBlock.isBonemealSuccess(this.getLevel(),
+                this.getLevel().random, targetPos, targetState
+        )) {
             cropBlock.performBonemeal((ServerLevel) this.getLevel(), this.getLevel().random, targetPos, targetState);
-            this.getLevel().levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, targetPos, 0);
+            this.getLevel().levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, targetPos, 0);
         }
         this.ticks = 0;
     }

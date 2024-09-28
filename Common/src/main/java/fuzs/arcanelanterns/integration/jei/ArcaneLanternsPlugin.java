@@ -64,6 +64,6 @@ public class ArcaneLanternsPlugin implements IModPlugin {
     }
 
     private static void addLanternStackInfo(IRecipeRegistration registration, Block block) {
-        registration.addItemStackInfo(new ItemStack(block), Component.translatable(block.getDescriptionId() + ".info"));
+        registration.addItemStackInfo(new ItemStack(block), Component.translatable(block.getDescriptionId() + ".description"));
     }
 }

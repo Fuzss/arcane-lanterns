@@ -2,30 +2,20 @@ package fuzs.arcanelanterns.neoforge.client;
 
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.client.ArcaneLanternsClient;
-import fuzs.arcanelanterns.init.ModRegistry;
+import fuzs.arcanelanterns.data.client.ModLanguageProvider;
+import fuzs.arcanelanterns.data.client.ModModelProvider;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import net.minecraft.client.RecipeBookCategories;
+import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
-import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 
-import java.util.Locale;
-
-@Mod.EventBusSubscriber(modid = ArcaneLanterns.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod(value = ArcaneLanterns.MOD_ID, dist = Dist.CLIENT)
 public class ArcaneLanternsNeoForgeClient {
 
-    @SubscribeEvent
-    public static void onConstructMod(final FMLConstructModEvent evt) {
+    public ArcaneLanternsNeoForgeClient() {
         ClientModConstructor.construct(ArcaneLanterns.MOD_ID, ArcaneLanternsClient::new);
-    }
-
-    @SubscribeEvent
-    public static void onRegisterRecipeBookCategories(final RegisterRecipeBookCategoriesEvent evt) {
-        evt.registerRecipeCategoryFinder(ModRegistry.LANTERN_MAKING_RECIPE_TYPE.value(), $ -> {
-            String internalName = ArcaneLanterns.id("lantern_maker").toDebugFileName().toUpperCase(Locale.ROOT);
-            return RecipeBookCategories.create(internalName);
-        });
+        DataProviderHelper.registerDataProviders(ArcaneLanterns.MOD_ID, ModLanguageProvider::new,
+                ModModelProvider::new
+        );
     }
 }

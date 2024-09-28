@@ -23,36 +23,30 @@ public class ContainingLanternBlockEntity extends LanternBlockEntity {
         if (++this.ticks <= config.delay) return;
         final int horizontalRange = config.horizontalRange;
         final int verticalRange = config.verticalRange;
-        this.getLevel()
-                .getEntitiesOfClass(LivingEntity.class,
-                        new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
-                                this.getBlockPos().getY() + 0.5 - verticalRange,
-                                this.getBlockPos().getZ() + 0.5 - horizontalRange,
-                                this.getBlockPos().getX() + 0.5 + horizontalRange,
-                                this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange
-                        ),
-                        entity -> !(entity instanceof Player)
-                )
-                .forEach((entity) -> {
-                    if (!entity.blockPosition().closerThan(this.getBlockPos(), horizontalRange / 2 + 1)) {
-                        if (this.getLevel().getBlockState(this.getBlockPos().above()).isAir()) {
-                            entity.teleportToWithTicket(this.getBlockPos().getX(),
-                                    this.getBlockPos().getY() + 1,
-                                    this.getBlockPos().getZ()
-                            );
-                        } else {
-                            entity.teleportToWithTicket(this.getBlockPos().getX(),
-                                    this.getBlockPos().getY() - 1,
-                                    this.getBlockPos().getZ()
-                            );
-                        }
-                        ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(),
-                                (ServerLevel) this.getLevel(),
-                                new ClientboundContainingSoundsMessage(this.getBlockPos())
-                        );
-                    }
-                });
+        this.getLevel().getEntitiesOfClass(LivingEntity.class,
+                new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
+                        this.getBlockPos().getY() + 0.5 - verticalRange,
+                        this.getBlockPos().getZ() + 0.5 - horizontalRange,
+                        this.getBlockPos().getX() + 0.5 + horizontalRange,
+                        this.getBlockPos().getY() + 0.5 + verticalRange,
+                        this.getBlockPos().getZ() + 0.5 + horizontalRange
+                ), entity -> !(entity instanceof Player)
+        ).forEach((entity) -> {
+            if (!entity.blockPosition().closerThan(this.getBlockPos(), horizontalRange / 2 + 1)) {
+                if (this.getLevel().getBlockState(this.getBlockPos().above()).isAir()) {
+                    entity.teleportTo(this.getBlockPos().getX(), this.getBlockPos().getY() + 1,
+                            this.getBlockPos().getZ()
+                    );
+                } else {
+                    entity.teleportTo(this.getBlockPos().getX(), this.getBlockPos().getY() - 1,
+                            this.getBlockPos().getZ()
+                    );
+                }
+                ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(), (ServerLevel) this.getLevel(),
+                        new ClientboundContainingSoundsMessage(this.getBlockPos())
+                );
+            }
+        });
         this.ticks = 0;
     }
 }

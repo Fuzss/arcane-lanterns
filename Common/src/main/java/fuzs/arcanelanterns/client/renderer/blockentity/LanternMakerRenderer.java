@@ -25,7 +25,7 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
 
     @Override
     public void render(LanternMakerBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-        NonNullList<ItemStack> items = blockEntity.getItems();
+        NonNullList<ItemStack> items = blockEntity.getContainerItems();
         if (!items.isEmpty()) {
             int posData = (int) blockEntity.getBlockPos().asLong();
             float totalTicks = blockEntity.getLevel().getGameTime() + tickDelta;
