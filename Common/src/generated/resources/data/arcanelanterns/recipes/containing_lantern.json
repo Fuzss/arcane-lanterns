@@ -1,0 +1,23 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "value": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "arcanelanterns:warding_lantern"
+      },
+      {
+        "item": "minecraft:fishing_rod"
+      },
+      {
+        "item": "minecraft:cobweb"
+      },
+      {
+        "item": "minecraft:chain"
+      }
+    ],
+    "result": {
+      "item": "arcanelanterns:containing_lantern"
+    }
+  }
+}
