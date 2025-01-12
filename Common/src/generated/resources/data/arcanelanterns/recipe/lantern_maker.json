@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:polished_basalt"
+    },
+    "X": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "pattern": [
+    "#X#",
+    " # ",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:lantern_maker"
+  }
+}
