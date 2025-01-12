@@ -2,21 +2,11 @@
   "type": "arcanelanterns:lantern_making",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:glowstone"
-    },
-    {
-      "item": "minecraft:jack_o_lantern"
-    },
-    {
-      "item": "minecraft:fire_charge"
-    },
-    {
-      "item": "minecraft:blaze_powder"
-    },
-    {
-      "item": "minecraft:gold_ingot"
-    }
+    "minecraft:glowstone",
+    "minecraft:jack_o_lantern",
+    "minecraft:fire_charge",
+    "minecraft:blaze_powder",
+    "minecraft:gold_ingot"
   ],
   "result": {
     "count": 1,

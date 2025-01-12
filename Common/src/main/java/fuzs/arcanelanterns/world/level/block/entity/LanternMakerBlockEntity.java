@@ -14,7 +14,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -42,7 +42,7 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
         BlockPos posAbove = this.getBlockPos().above();
         BlockState stateAbove = this.getLevel().getBlockState(posAbove);
         if (stateAbove.is(Blocks.LANTERN) || stateAbove.is(Blocks.SOUL_LANTERN)) {
-            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), this.getLevel()).map(
+            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), (ServerLevel) this.getLevel()).map(
                     recipe -> recipe.value().assemble(this.asCraftInput(), this.getLevel().registryAccess())).orElse(
                     ItemStack.EMPTY);
             if (!result.isEmpty()) {
@@ -81,9 +81,9 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     }
 
     @Override
-    public void fillStackedContents(StackedContents contents) {
+    public void fillStackedContents(StackedItemContents stackedContents) {
         for (ItemStack itemStack : this.items) {
-            contents.accountSimpleStack(itemStack);
+            stackedContents.accountSimpleStack(itemStack);
         }
     }
 

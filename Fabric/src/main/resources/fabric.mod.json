@@ -29,7 +29,13 @@
       "${clientEntryPoint}"
     ],
     "jei_mod_plugin": [
-      "${modGroup}.integration.jei.ArcaneLanternsPlugin"
+      "${modGroup}.integration.jei.ArcaneLanternsJeiPlugin"
+    ],
+    "rei_common": [
+      "${modGroup}.integration.rei.ArcaneLanternsReiPlugin"
+    ],
+    "rei_client": [
+      "${modGroup}.integration.rei.ArcaneLanternsReiClientPlugin"
     ]
   },
 

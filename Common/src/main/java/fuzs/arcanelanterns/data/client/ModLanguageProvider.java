@@ -2,7 +2,7 @@ package fuzs.arcanelanterns.data.client;
 
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
-import fuzs.arcanelanterns.integration.jei.LanternMakingRecipeCategory;
+import fuzs.arcanelanterns.integration.LanternMakingRecipeHelper;
 import fuzs.arcanelanterns.world.level.block.ArcaneLanternBlock;
 import fuzs.arcanelanterns.world.level.block.LanternMakerBlock;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
@@ -29,39 +29,28 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModRegistry.CONTAINING_LANTERN_BLOCK.value(), "Containment Lantern");
         builder.add(ModRegistry.WITHERING_LANTERN_BLOCK.value(), "Withering Lantern");
         builder.add(ModRegistry.CLOUD_LANTERN_BLOCK.value(), "Cloud Lantern");
-        builder.add(LanternMakingRecipeCategory.LANTERN_MAKING_COMPONENT, "Lantern Making");
+        builder.add(LanternMakingRecipeHelper.LANTERN_MAKING_COMPONENT, "Lantern Making");
         builder.add(((LanternMakerBlock) ModRegistry.LANTERN_MAKER_BLOCK.value()).getDescriptionComponent(),
-                "To imbue a lantern the lantern maker will require a number of catalysts. Finally, place a lantern block on top to fuse everything together."
-        );
+                "To imbue a lantern the lantern maker will require a number of catalysts. Finally, place a lantern block on top to fuse everything together.");
         builder.add(((ArcaneLanternBlock) ModRegistry.LIFE_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Makes crops around the lantern grow faster."
-        );
+                "Makes crops around the lantern grow faster.");
         builder.add(((ArcaneLanternBlock) ModRegistry.FERAL_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Lights up a giant area around it by spawning temporary sparks, will stop eventually."
-        );
+                "Lights up a giant area around it by spawning temporary sparks, will stop eventually.");
         builder.add(((ArcaneLanternBlock) ModRegistry.LOVE_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Makes nearby mobs fall in love."
-        );
+                "Makes nearby mobs fall in love.");
         builder.add(((ArcaneLanternBlock) ModRegistry.WAILING_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Cries if you get close, screams and applies nausea if you get even closer."
-        );
+                "Cries if you get close, screams and applies nausea if you get even closer.");
         builder.add(((ArcaneLanternBlock) ModRegistry.BOREAL_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Slows nearby mobs and players down, also extinguishes burning mobs."
-        );
+                "Slows nearby mobs and players down, also extinguishes burning mobs.");
         builder.add(((ArcaneLanternBlock) ModRegistry.BRILLIANT_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Turns nearby animals directly into experience."
-        );
+                "Turns nearby animals directly into experience.");
         builder.add(((ArcaneLanternBlock) ModRegistry.WARDING_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Pushes all living entities except players away."
-        );
+                "Pushes all living entities except players away.");
         builder.add(((ArcaneLanternBlock) ModRegistry.CONTAINING_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Keeps all living entities except the player confined to an area."
-        );
+                "Keeps all living entities except the player confined to an area.");
         builder.add(((ArcaneLanternBlock) ModRegistry.WITHERING_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Applies the wither effect in the surrounding area."
-        );
+                "Applies the wither effect in the surrounding area.");
         builder.add(((ArcaneLanternBlock) ModRegistry.CLOUD_LANTERN_BLOCK.value()).getDescriptionComponent(),
-                "Applies the slow fall effect in the surrounding area."
-        );
+                "Applies the slow fall effect in the surrounding area.");
     }
 }

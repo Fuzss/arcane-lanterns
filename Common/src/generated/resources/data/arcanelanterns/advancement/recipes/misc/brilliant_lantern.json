@@ -5,10 +5,17 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:lantern",
-              "minecraft:soul_lantern"
-            ]
+            "items": "minecraft:lantern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_soul_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:soul_lantern"
           }
         ]
       },
@@ -24,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lantern"
+      "has_lantern",
+      "has_soul_lantern"
     ]
   ],
   "rewards": {

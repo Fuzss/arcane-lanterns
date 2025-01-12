@@ -4,6 +4,7 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +33,7 @@ public class WitheringLanternBlockEntity extends LanternBlockEntity {
                                 this.getBlockPos().getY() + 0.5 + verticalRange,
                                 this.getBlockPos().getZ() + 0.5 + horizontalRange
                         ),
-                        entity -> !(entity instanceof Player) && !entity.isInvulnerableTo(this.getLevel()
+                        entity -> !(entity instanceof Player) && !entity.isInvulnerableTo((ServerLevel) this.getLevel(), this.getLevel()
                                 .damageSources()
                                 .wither())
                 )

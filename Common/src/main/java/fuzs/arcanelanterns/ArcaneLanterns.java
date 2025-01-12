@@ -37,7 +37,8 @@ public class ArcaneLanterns implements ModConstructor {
 
     @Override
     public void onRegisterCreativeModeTabs(CreativeModeTabContext context) {
-        context.registerCreativeModeTab(CreativeModeTabConfigurator.from(MOD_ID, () -> new ItemStack(Items.LANTERN))
+        context.registerCreativeModeTab(CreativeModeTabConfigurator.from(MOD_ID)
+                .icon(() -> new ItemStack(Items.LANTERN))
                 .displayItems((itemDisplayParameters, output) -> {
                     output.accept(ModRegistry.LANTERN_MAKER_ITEM.value());
                     output.accept(ModRegistry.LIFE_LANTERN_ITEM.value());

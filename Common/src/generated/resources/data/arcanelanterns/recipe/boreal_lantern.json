@@ -2,18 +2,10 @@
   "type": "arcanelanterns:lantern_making",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:cobweb"
-    },
-    {
-      "item": "minecraft:snowball"
-    },
-    {
-      "item": "minecraft:packed_ice"
-    },
-    {
-      "item": "minecraft:quartz"
-    }
+    "minecraft:cobweb",
+    "minecraft:snowball",
+    "minecraft:packed_ice",
+    "minecraft:quartz"
   ],
   "result": {
     "count": 1,

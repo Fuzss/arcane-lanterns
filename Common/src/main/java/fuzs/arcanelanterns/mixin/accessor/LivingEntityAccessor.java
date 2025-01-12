@@ -15,5 +15,5 @@ public interface LivingEntityAccessor {
     void arcanelanterns$dropAllDeathLoot(ServerLevel level, DamageSource damageSource);
 
     @Invoker("dropExperience")
-    void arcanelanterns$dropExperience(@Nullable Entity entity);
+    void arcanelanterns$dropExperience(ServerLevel level, @Nullable Entity entity);
 }

@@ -5,12 +5,13 @@ import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.world.level.block.entity.LanternMakerBlockEntity;
 import fuzs.puzzleslib.api.block.v1.entity.TickingEntityBlock;
 import fuzs.puzzleslib.api.core.v1.Proxy;
+import fuzs.puzzleslib.api.util.v1.InteractionResultHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -63,12 +64,12 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemInHand, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack itemInHand, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof LanternMakerBlockEntity blockEntity) {
             if (!itemInHand.isEmpty()) {
                 if (level.getBlockState(pos.above()).isAir()) {
                     if (itemInHand.is(Items.LANTERN) || itemInHand.is(Items.SOUL_LANTERN)) {
-                        return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+                        return InteractionResultHelper.SKIP_DEFAULT_BLOCK_INTERACTION;
                     }
                     for (int i = 0; i < blockEntity.getContainerSize(); i++) {
                         if (blockEntity.getItem(i).isEmpty()) {
@@ -79,11 +80,11 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
                                 blockEntity.setItem(i, itemInHand.split(1));
                                 blockEntity.setChanged();
                             }
-                            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                            return InteractionResultHelper.sidedSuccess(level.isClientSide);
                         }
                     }
                 }
-                return ItemInteractionResult.CONSUME_PARTIAL;
+                return InteractionResultHelper.CONSUME;
             } else if (player.isSecondaryUseActive()) {
                 for (int i = blockEntity.getContainerSize() - 1; i >= 0; i--) {
                     if (!blockEntity.getItem(i).isEmpty()) {
@@ -94,13 +95,13 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
                                     pos.getZ() + 0.5, itemStack
                             );
                         }
-                        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                        return InteractionResultHelper.sidedSuccess(level.isClientSide);
                     }
                 }
             }
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResultHelper.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

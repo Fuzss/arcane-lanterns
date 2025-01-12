@@ -2,18 +2,10 @@
   "type": "arcanelanterns:lantern_making",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:wither_rose"
-    },
-    {
-      "item": "minecraft:soul_sand"
-    },
-    {
-      "item": "minecraft:firework_star"
-    },
-    {
-      "item": "minecraft:coal"
-    }
+    "minecraft:wither_rose",
+    "minecraft:soul_sand",
+    "minecraft:firework_star",
+    "minecraft:coal"
   ],
   "result": {
     "count": 1,

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:polished_basalt"
-    },
-    "X": {
-      "item": "minecraft:diamond"
-    }
+    "#": "minecraft:polished_basalt",
+    "X": "minecraft:diamond"
   },
   "pattern": [
     "#X#",
