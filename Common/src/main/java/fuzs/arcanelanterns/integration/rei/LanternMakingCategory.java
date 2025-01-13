@@ -52,6 +52,8 @@ public class LanternMakingCategory implements DisplayCategory<LanternMakingDispl
                     256,
                     256);
         }));
+        // add this on top for supporting dark mode
+        widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + 131, startPoint.y + 56)));
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 42, startPoint.y + 35))
                 .entry(EntryStacks.of(ModRegistry.LANTERN_MAKER_ITEM.value()))
