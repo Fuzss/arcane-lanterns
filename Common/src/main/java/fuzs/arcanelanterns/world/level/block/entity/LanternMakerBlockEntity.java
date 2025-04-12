@@ -1,11 +1,12 @@
 package fuzs.arcanelanterns.world.level.block.entity;
 
-import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.network.ClientboundCraftLanternParticlesMessage;
 import fuzs.arcanelanterns.world.item.crafting.LanternMakingRecipe;
 import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
 import fuzs.puzzleslib.api.container.v1.ListBackedContainer;
+import fuzs.puzzleslib.api.network.v4.MessageSender;
+import fuzs.puzzleslib.api.network.v4.PlayerSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -42,21 +43,22 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
         BlockPos posAbove = this.getBlockPos().above();
         BlockState stateAbove = this.getLevel().getBlockState(posAbove);
         if (stateAbove.is(Blocks.LANTERN) || stateAbove.is(Blocks.SOUL_LANTERN)) {
-            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), (ServerLevel) this.getLevel()).map(
-                    recipe -> recipe.value().assemble(this.asCraftInput(), this.getLevel().registryAccess())).orElse(
-                    ItemStack.EMPTY);
+            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), (ServerLevel) this.getLevel())
+                    .map(recipe -> recipe.value().assemble(this.asCraftInput(), this.getLevel().registryAccess()))
+                    .orElse(ItemStack.EMPTY);
             if (!result.isEmpty()) {
                 for (ItemStack stack : this.items) {
                     if (!stack.isEmpty()) stack.shrink(1);
                 }
                 this.setChanged();
                 this.getLevel().destroyBlock(posAbove, false);
-                dropItemStack(this.getLevel(), this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.0,
-                        this.getBlockPos().getZ() + 0.5, result
-                );
-                ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(), (ServerLevel) this.getLevel(),
-                        new ClientboundCraftLanternParticlesMessage(this.getBlockPos())
-                );
+                dropItemStack(this.getLevel(),
+                        this.getBlockPos().getX() + 0.5,
+                        this.getBlockPos().getY() + 1.0,
+                        this.getBlockPos().getZ() + 0.5,
+                        result);
+                MessageSender.broadcast(PlayerSet.nearBlockEntity(this),
+                        new ClientboundCraftLanternParticlesMessage(this.getBlockPos()));
             } else {
                 destroyBlockDropCentered(this.getLevel(), stateAbove, posAbove);
             }
@@ -73,8 +75,8 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     private static void destroyBlockDropCentered(Level level, BlockState state, BlockPos pos) {
         BlockEntity blockEntityAbove = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
         level.destroyBlock(pos, false);
-        Block.getDrops(state, (ServerLevel) level, pos, blockEntityAbove, null, ItemStack.EMPTY).forEach(
-                (itemStack) -> {
+        Block.getDrops(state, (ServerLevel) level, pos, blockEntityAbove, null, ItemStack.EMPTY)
+                .forEach((itemStack) -> {
                     dropItemStack(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, itemStack);
                 });
         state.spawnAfterBreak((ServerLevel) level, pos, ItemStack.EMPTY, true);

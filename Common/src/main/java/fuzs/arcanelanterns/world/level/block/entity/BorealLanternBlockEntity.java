@@ -4,8 +4,9 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.network.ClientboundBorealParticlesMessage;
+import fuzs.puzzleslib.api.network.v4.MessageSender;
+import fuzs.puzzleslib.api.network.v4.PlayerSet;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySelector;
@@ -32,20 +33,13 @@ public class BorealLanternBlockEntity extends LanternBlockEntity {
                                 this.getBlockPos().getZ() + 0.5 - horizontalRange,
                                 this.getBlockPos().getX() + 0.5 + horizontalRange,
                                 this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange
-                        ),
-                        EntitySelector.NO_CREATIVE_OR_SPECTATOR
-                )
+                                this.getBlockPos().getZ() + 0.5 + horizontalRange),
+                        EntitySelector.NO_SPECTATORS)
                 .forEach((entity) -> {
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
-                            config.effectDuration * 20,
-                            3
-                    ));
+                    entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, config.effectDuration * 20, 3));
                     entity.setRemainingFireTicks(0);
-                    ArcaneLanterns.NETWORK.sendToAllNear(entity.blockPosition(),
-                            (ServerLevel) this.getLevel(),
-                            new ClientboundBorealParticlesMessage(this.getBlockPos(), entity.blockPosition())
-                    );
+                    MessageSender.broadcast(PlayerSet.nearBlockEntity(this),
+                            new ClientboundBorealParticlesMessage(this.getBlockPos(), entity.blockPosition()));
                 });
         this.ticks = 0;
     }

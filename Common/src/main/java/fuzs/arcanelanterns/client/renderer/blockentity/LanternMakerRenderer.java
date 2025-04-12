@@ -10,11 +10,14 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Predicate;
 
 /**
- * Mostly copied from <a href="https://github.com/VazkiiMods/Botania/blob/1.19.x/Xplat/src/main/java/vazkii/botania/client/render/block_entity/RunicAltarBlockEntityRenderer.java">Botania's Runic Altar</a> rendering code, thanks!
+ * Mostly copied from <a
+ * href="https://github.com/VazkiiMods/Botania/blob/1.19.x/Xplat/src/main/java/vazkii/botania/client/render/block_entity/RunicAltarBlockEntityRenderer.java">Botania's
+ * Runic Altar</a> rendering code, thanks!
  */
 public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlockEntity> {
     private final ItemRenderer itemRenderer;
@@ -24,7 +27,7 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
     }
 
     @Override
-    public void render(LanternMakerBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+    public void render(LanternMakerBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, Vec3 cameraPosition) {
         NonNullList<ItemStack> items = blockEntity.getContainerItems();
         if (!items.isEmpty()) {
             int posData = (int) blockEntity.getBlockPos().asLong();
@@ -46,8 +49,7 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
                             matrices,
                             vertexConsumers,
                             blockEntity.getLevel(),
-                            posData + i
-                    );
+                            posData + i);
                     matrices.popPose();
                 }
             }

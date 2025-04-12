@@ -15,9 +15,9 @@ public class ModModelProvider extends AbstractModelProvider {
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
         blockModelGenerators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModRegistry.LANTERN_MAKER_BLOCK.value(),
-                ModelLocationUtils.getModelLocation(ModRegistry.LANTERN_MAKER_BLOCK.value())));
+                BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(ModRegistry.LANTERN_MAKER_BLOCK.value()))));
         blockModelGenerators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModRegistry.SPARK_BLOCK.value(),
-                ModelLocationUtils.getModelLocation(ModRegistry.SPARK_BLOCK.value())));
+                BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(ModRegistry.SPARK_BLOCK.value()))));
         blockModelGenerators.createLantern(ModRegistry.LIFE_LANTERN_BLOCK.value());
         blockModelGenerators.createLantern(ModRegistry.FERAL_LANTERN_BLOCK.value());
         blockModelGenerators.createLantern(ModRegistry.LOVE_LANTERN_BLOCK.value());

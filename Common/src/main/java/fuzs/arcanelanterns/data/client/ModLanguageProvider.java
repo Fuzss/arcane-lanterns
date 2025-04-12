@@ -16,7 +16,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
 
     @Override
     public void addTranslations(TranslationBuilder builder) {
-        builder.addCreativeModeTab(ArcaneLanterns.MOD_ID, ArcaneLanterns.MOD_NAME);
+        builder.add(ModRegistry.CREATIVE_MODE_TAB.value(), ArcaneLanterns.MOD_NAME);
         builder.add(ModRegistry.LANTERN_MAKER_BLOCK.value(), "Lantern Maker");
         builder.add(ModRegistry.SPARK_BLOCK.value(), "Spark");
         builder.add(ModRegistry.LIFE_LANTERN_BLOCK.value(), "Life Lantern");

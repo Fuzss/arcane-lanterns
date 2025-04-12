@@ -49,7 +49,7 @@ public class SparkBlock extends BaseEntityBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (level.getBlockEntity(pos) instanceof SparkBlockEntity blockEntity) {
-            if (level.getBlockState(blockEntity.pos).is(ModRegistry.FERAL_LANTERN_BLOCK.value())) {
+            if (level.getBlockState(blockEntity.blockPos).is(ModRegistry.FERAL_LANTERN_BLOCK.value())) {
                 return;
             }
         }

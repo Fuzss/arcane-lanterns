@@ -8,8 +8,8 @@ import fuzs.arcanelanterns.network.ClientboundCraftLanternParticlesMessage;
 import fuzs.arcanelanterns.network.ClientboundWailingSoundsMessage;
 import fuzs.puzzleslib.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
+import fuzs.puzzleslib.api.core.v1.context.PayloadTypesContext;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
-import fuzs.puzzleslib.api.network.v3.NetworkHandler;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,16 +19,20 @@ public class ArcaneLanterns implements ModConstructor {
     public static final String MOD_NAME = "Arcane Lanterns";
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
-    public static final NetworkHandler NETWORK = NetworkHandler.builder(MOD_ID)
-            .registerClientbound(ClientboundBorealParticlesMessage.class)
-            .registerClientbound(ClientboundContainingSoundsMessage.class)
-            .registerClientbound(ClientboundCraftLanternParticlesMessage.class)
-            .registerClientbound(ClientboundWailingSoundsMessage.class);
     public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID).server(ServerConfig.class);
 
     @Override
     public void onConstructMod() {
         ModRegistry.bootstrap();
+    }
+
+    @Override
+    public void onRegisterPayloadTypes(PayloadTypesContext context) {
+        context.playToClient(ClientboundBorealParticlesMessage.class, ClientboundBorealParticlesMessage.STREAM_CODEC);
+        context.playToClient(ClientboundContainingSoundsMessage.class, ClientboundContainingSoundsMessage.STREAM_CODEC);
+        context.playToClient(ClientboundCraftLanternParticlesMessage.class,
+                ClientboundCraftLanternParticlesMessage.STREAM_CODEC);
+        context.playToClient(ClientboundWailingSoundsMessage.class, ClientboundWailingSoundsMessage.STREAM_CODEC);
     }
 
     public static ResourceLocation id(String path) {

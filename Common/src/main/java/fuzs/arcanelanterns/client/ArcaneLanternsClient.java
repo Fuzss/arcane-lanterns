@@ -2,13 +2,22 @@ package fuzs.arcanelanterns.client;
 
 import fuzs.arcanelanterns.client.renderer.blockentity.LanternMakerRenderer;
 import fuzs.arcanelanterns.init.ModRegistry;
+import fuzs.arcanelanterns.world.level.block.ArcaneLanternBlock;
+import fuzs.arcanelanterns.world.level.block.LanternMakerBlock;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.BlockEntityRenderersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
+import fuzs.puzzleslib.api.client.gui.v2.tooltip.ItemTooltipRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 
 public class ArcaneLanternsClient implements ClientModConstructor {
+
+    @Override
+    public void onClientSetup() {
+        ItemTooltipRegistry.registerItemTooltip(ArcaneLanternBlock.class, ArcaneLanternBlock::getDescriptionComponent);
+        ItemTooltipRegistry.registerItemTooltip(LanternMakerBlock.class, LanternMakerBlock::getDescriptionComponent);
+    }
 
     @Override
     public void onRegisterBlockEntityRenderers(BlockEntityRenderersContext context) {

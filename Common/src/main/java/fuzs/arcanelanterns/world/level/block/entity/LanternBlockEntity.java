@@ -24,7 +24,7 @@ public abstract class LanternBlockEntity extends BlockEntity implements TickingB
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.ticks = tag.getInt(TAG_TICKS);
+        this.ticks = tag.getIntOr(TAG_TICKS, 0);
     }
 
     @Override

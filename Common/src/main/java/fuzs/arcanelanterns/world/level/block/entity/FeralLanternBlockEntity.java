@@ -58,7 +58,7 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
                     if (this.getLevel().getBlockState(mutable).isAir()) {
                         this.getLevel().setBlockAndUpdate(mutable, ModRegistry.SPARK_BLOCK.value().defaultBlockState());
                         if (this.getLevel().getBlockEntity(mutable) instanceof SparkBlockEntity sparkBlockEntity) {
-                            sparkBlockEntity.pos = this.getBlockPos();
+                            sparkBlockEntity.blockPos = this.getBlockPos();
                         }
                         this.placedFlares++;
                     }
@@ -75,7 +75,7 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.placedFlares = tag.getInt(TAG_PLACED_FLARES);
+        this.placedFlares = tag.getIntOr(TAG_PLACED_FLARES, 0);
     }
 
     @Override

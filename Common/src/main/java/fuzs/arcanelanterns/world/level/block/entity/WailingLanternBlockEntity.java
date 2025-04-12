@@ -4,8 +4,9 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.network.ClientboundWailingSoundsMessage;
+import fuzs.puzzleslib.api.network.v4.MessageSender;
+import fuzs.puzzleslib.api.network.v4.PlayerSet;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySelector;
@@ -32,22 +33,16 @@ public class WailingLanternBlockEntity extends LanternBlockEntity {
                                 this.getBlockPos().getZ() + 0.5 - horizontalRange,
                                 this.getBlockPos().getX() + 0.5 + horizontalRange,
                                 this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange
-                        ),
-                        EntitySelector.NO_CREATIVE_OR_SPECTATOR
-                )
-                .forEach((player) -> {
-                    if (!player.blockPosition().closerThan(this.getBlockPos(), 5)) {
-                        ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(),
-                                (ServerLevel) this.getLevel(),
-                                new ClientboundWailingSoundsMessage(this.getBlockPos(), false)
-                        );
+                                this.getBlockPos().getZ() + 0.5 + horizontalRange),
+                        EntitySelector.NO_SPECTATORS)
+                .forEach((Player player) -> {
+                    if (!player.blockPosition().closerThan(this.getBlockPos(), 5.0)) {
+                        MessageSender.broadcast(PlayerSet.nearBlockEntity(this),
+                                new ClientboundWailingSoundsMessage(this.getBlockPos(), false));
                     } else {
-                        player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, config.effectDuration * 20, 0));
-                        ArcaneLanterns.NETWORK.sendToAllNear(this.getBlockPos(),
-                                (ServerLevel) this.getLevel(),
-                                new ClientboundWailingSoundsMessage(this.getBlockPos(), true)
-                        );
+                        player.addEffect(new MobEffectInstance(MobEffects.NAUSEA, config.effectDuration * 20, 0));
+                        MessageSender.broadcast(PlayerSet.nearBlockEntity(this),
+                                new ClientboundWailingSoundsMessage(this.getBlockPos(), true));
                     }
                 });
         this.ticks = 0;

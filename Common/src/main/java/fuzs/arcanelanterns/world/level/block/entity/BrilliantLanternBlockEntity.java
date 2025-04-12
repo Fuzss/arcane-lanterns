@@ -3,7 +3,6 @@ package fuzs.arcanelanterns.world.level.block.entity;
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
-import fuzs.arcanelanterns.mixin.accessor.LivingEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,8 +40,8 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
             // make sure equipment still drops, but nothing else
             killWithoutLoot((ServerLevel) this.getLevel(), animal);
             // allow experience to drop
-            animal.setLastHurtByPlayer(null);
-            ((LivingEntityAccessor) animal).arcanelanterns$dropExperience((ServerLevel) this.getLevel(), null);
+            animal.lastHurtByPlayer = null;
+            animal.dropExperience((ServerLevel) this.getLevel(), null);
             animal.skipDropExperience();
         }
         this.ticks = 0;

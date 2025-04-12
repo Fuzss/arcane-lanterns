@@ -30,17 +30,14 @@ public class CloudLanternBlockEntity extends LanternBlockEntity {
                                 this.getBlockPos().getZ() + 0.5 - horizontalRange,
                                 this.getBlockPos().getX() + 0.5 + horizontalRange,
                                 this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange
-                        ),
-                        EntitySelector.NO_CREATIVE_OR_SPECTATOR
-                )
-                .forEach((entity) -> {
-                    entity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
+                                this.getBlockPos().getZ() + 0.5 + horizontalRange),
+                        EntitySelector.NO_SPECTATORS)
+                .forEach((Player player) -> {
+                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
                             config.effectDuration * 20,
                             0,
                             true,
-                            true
-                    ));
+                            true));
                 });
         this.ticks = 0;
     }

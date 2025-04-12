@@ -1,27 +1,39 @@
 package fuzs.arcanelanterns.network;
 
-import fuzs.puzzleslib.api.network.v3.ClientMessageListener;
-import fuzs.puzzleslib.api.network.v3.ClientboundMessage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
+import fuzs.puzzleslib.api.network.v4.message.MessageListener;
+import fuzs.puzzleslib.api.network.v4.message.play.ClientboundPlayMessage;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 
-public record ClientboundCraftLanternParticlesMessage(BlockPos pos) implements ClientboundMessage<ClientboundCraftLanternParticlesMessage> {
+public record ClientboundCraftLanternParticlesMessage(BlockPos blockPos) implements ClientboundPlayMessage {
+    public static final StreamCodec<ByteBuf, ClientboundCraftLanternParticlesMessage> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC,
+            ClientboundCraftLanternParticlesMessage::blockPos,
+            ClientboundCraftLanternParticlesMessage::new);
 
     @Override
-    public ClientMessageListener<ClientboundCraftLanternParticlesMessage> getHandler() {
-        return new ClientMessageListener<>() {
-
+    public MessageListener<Context> getListener() {
+        return new MessageListener<Context>() {
             @Override
-            public void handle(ClientboundCraftLanternParticlesMessage message, Minecraft client, ClientPacketListener handler, LocalPlayer player, ClientLevel level) {
-                level.playLocalSound(message.pos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1, 1, true);
+            public void accept(Context context) {
+                BlockPos blockPos = ClientboundCraftLanternParticlesMessage.this.blockPos;
+                RandomSource randomSource = context.level().random;
+                context.level()
+                        .playLocalSound(blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1, 1, true);
                 for (int i = 0; i < 20; i++) {
-                    level.addParticle(ParticleTypes.END_ROD, message.pos.getX() + 0.5, message.pos.getY() + 1.25, message.pos.getZ() + 0.5, 0.5 - level.random.nextDouble(), 0.5 - level.random.nextDouble(), 0.5 - level.random.nextDouble());
+                    context.level()
+                            .addParticle(ParticleTypes.END_ROD,
+                                    blockPos.getX() + 0.5,
+                                    blockPos.getY() + 1.25,
+                                    blockPos.getZ() + 0.5,
+                                    0.5 - randomSource.nextDouble(),
+                                    0.5 - randomSource.nextDouble(),
+                                    0.5 - randomSource.nextDouble());
                 }
             }
         };
