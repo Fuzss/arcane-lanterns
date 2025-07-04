@@ -1,0 +1,15 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:ghast_tear",
+    "minecraft:warped_roots",
+    "minecraft:flint",
+    "minecraft:pufferfish",
+    "minecraft:ink_sac"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:wailing_lantern"
+  }
+}
