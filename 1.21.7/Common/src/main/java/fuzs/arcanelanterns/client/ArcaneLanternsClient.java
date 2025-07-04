@@ -8,15 +8,17 @@ import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.BlockEntityRenderersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
 import fuzs.puzzleslib.api.client.gui.v2.tooltip.ItemTooltipRegistry;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.Block;
 
 public class ArcaneLanternsClient implements ClientModConstructor {
 
     @Override
     public void onClientSetup() {
-        ItemTooltipRegistry.registerItemTooltip(ArcaneLanternBlock.class, ArcaneLanternBlock::getDescriptionComponent);
-        ItemTooltipRegistry.registerItemTooltip(LanternMakerBlock.class, LanternMakerBlock::getDescriptionComponent);
+        ItemTooltipRegistry.BLOCK.registerItemTooltip(ArcaneLanternBlock.class,
+                ArcaneLanternBlock::getDescriptionComponent);
+        ItemTooltipRegistry.BLOCK.registerItemTooltip(LanternMakerBlock.class,
+                LanternMakerBlock::getDescriptionComponent);
     }
 
     @Override
@@ -26,15 +28,15 @@ public class ArcaneLanternsClient implements ClientModConstructor {
 
     @Override
     public void onRegisterBlockRenderTypes(RenderTypesContext<Block> context) {
-        context.registerRenderType(RenderType.cutout(), ModRegistry.LIFE_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.FERAL_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.LOVE_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.WAILING_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.BOREAL_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.BRILLIANT_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.WARDING_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.CONTAINING_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.WITHERING_LANTERN_BLOCK.value());
-        context.registerRenderType(RenderType.cutout(), ModRegistry.CLOUD_LANTERN_BLOCK.value());
+        context.registerChunkRenderType(ModRegistry.LIFE_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.FERAL_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.LOVE_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.WAILING_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.BOREAL_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.BRILLIANT_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.WARDING_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.CONTAINING_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.WITHERING_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModRegistry.CLOUD_LANTERN_BLOCK.value(), ChunkSectionLayer.CUTOUT);
     }
 }

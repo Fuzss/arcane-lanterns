@@ -5,9 +5,11 @@ import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -40,7 +42,7 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
             // make sure equipment still drops, but nothing else
             killWithoutLoot((ServerLevel) this.getLevel(), animal);
             // allow experience to drop
-            animal.lastHurtByPlayer = null;
+            animal.setLastHurtByPlayer((EntityReference<Player>) null, 100);
             animal.dropExperience((ServerLevel) this.getLevel(), null);
             animal.skipDropExperience();
         }
@@ -48,9 +50,9 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
     }
 
     private static boolean isValidAnimal(Animal animal) {
-        return animal.shouldDropExperience() &&
-                (!(animal instanceof TamableAnimal tamableAnimal) || !tamableAnimal.isTame()) &&
-                !ArcaneLanterns.CONFIG.get(ServerConfig.class).brilliantLantern.blacklist.contains(animal.getType());
+        return animal.shouldDropExperience() && (!(animal instanceof TamableAnimal tamableAnimal)
+                || !tamableAnimal.isTame())
+                && !ArcaneLanterns.CONFIG.get(ServerConfig.class).brilliantLantern.blacklist.contains(animal.getType());
     }
 
     private static void killWithoutLoot(ServerLevel serverLevel, LivingEntity entity) {

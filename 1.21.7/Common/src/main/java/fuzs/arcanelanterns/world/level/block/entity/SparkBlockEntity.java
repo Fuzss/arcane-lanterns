@@ -3,10 +3,10 @@ package fuzs.arcanelanterns.world.level.block.entity;
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class SparkBlockEntity extends BlockEntity {
     public static final String TAG_POSITION = ArcaneLanterns.id("position").toString();
@@ -18,16 +18,16 @@ public class SparkBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.blockPos = tag.read(TAG_POSITION, BlockPos.CODEC).orElse(BlockPos.ZERO);
+    protected void loadAdditional(ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.blockPos = valueInput.read(TAG_POSITION, BlockPos.CODEC).orElse(BlockPos.ZERO);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
         if (this.blockPos != BlockPos.ZERO) {
-            tag.store(TAG_POSITION, BlockPos.CODEC, this.blockPos);
+            valueOutput.store(TAG_POSITION, BlockPos.CODEC, this.blockPos);
         }
     }
 }

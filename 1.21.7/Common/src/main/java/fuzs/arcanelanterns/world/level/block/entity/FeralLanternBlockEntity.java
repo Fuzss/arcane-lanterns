@@ -5,9 +5,9 @@ import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class FeralLanternBlockEntity extends LanternBlockEntity {
     public static final String TAG_PLACED_FLARES = ArcaneLanterns.id("placed_flares").toString();
@@ -26,22 +26,15 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
             mutable.move(-config.horizontalRange, -config.verticalRange, -config.horizontalRange);
             mutable.move(this.getLevel().random.nextInt(config.horizontalRange * 2),
                     this.getLevel().random.nextInt(config.verticalRange * 2),
-                    this.getLevel().random.nextInt(config.horizontalRange * 2)
-            );
+                    this.getLevel().random.nextInt(config.horizontalRange * 2));
             // max manhattan distance approximation
             int maxDistance = 5 * (config.horizontalRange + config.verticalRange) / 7;
-            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
-                    .isOutsideBuildHeight(mutable) && this.getLevel()
-                    .getBlockState(mutable)
-                    .getCollisionShape(this.getLevel(), mutable)
-                    .isEmpty()) {
+            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel().isOutsideBuildHeight(mutable)
+                    && this.getLevel().getBlockState(mutable).getCollisionShape(this.getLevel(), mutable).isEmpty()) {
                 mutable.move(Direction.DOWN);
             }
-            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
-                    .isOutsideBuildHeight(mutable) && !this.getLevel()
-                    .getBlockState(mutable)
-                    .getCollisionShape(this.getLevel(), mutable)
-                    .isEmpty()) {
+            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel().isOutsideBuildHeight(mutable)
+                    && !this.getLevel().getBlockState(mutable).getCollisionShape(this.getLevel(), mutable).isEmpty()) {
                 mutable.move(Direction.UP);
             }
             if (this.getLevel().getMaxLocalRawBrightness(mutable) < config.maxLightLevel) {
@@ -73,14 +66,14 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.placedFlares = tag.getIntOr(TAG_PLACED_FLARES, 0);
+    protected void loadAdditional(ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.placedFlares = valueInput.getIntOr(TAG_PLACED_FLARES, 0);
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt(TAG_PLACED_FLARES, this.placedFlares);
+    protected void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        valueOutput.putInt(TAG_PLACED_FLARES, this.placedFlares);
     }
 }
