@@ -1,0 +1,15 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:glowstone",
+    "minecraft:jack_o_lantern",
+    "minecraft:fire_charge",
+    "minecraft:blaze_powder",
+    "minecraft:gold_ingot"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:feral_lantern"
+  }
+}

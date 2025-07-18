@@ -1,0 +1,14 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:warped_fungus",
+    "minecraft:pufferfish",
+    "minecraft:iron_door",
+    "minecraft:obsidian"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:warding_lantern"
+  }
+}
