@@ -9,8 +9,8 @@ dependencies {
 //    modLocalRuntime libs.jei.neoforge
 
     // Roughly Enough Items
-//    modCompileOnly libs.reiapi.neoforge
-//    modLocalRuntime libs.cloth.neoforge
-//    modLocalRuntime libs.architectury.neoforge
-//    modLocalRuntime libs.rei.neoforge
+    modCompileOnly libs.reiapi.neoforge
+    modLocalRuntime libs.cloth.neoforge
+    modLocalRuntime libs.architectury.neoforge
+    modLocalRuntime libs.rei.neoforge
 }
