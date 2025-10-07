@@ -5,9 +5,9 @@ dependencies {
     modApi libs.puzzleslib.common
 
     // Just Enough Items
-//    modCompileOnly libs.jeiapi.common
+    modCompileOnly libs.jeiapi.common
 
     // Roughly Enough Items
-    modCompileOnly libs.reiapi.common
+//    modCompileOnly libs.reiapi.common
 }
 

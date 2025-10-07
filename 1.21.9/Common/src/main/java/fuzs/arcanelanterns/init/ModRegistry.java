@@ -41,7 +41,7 @@ public class ModRegistry {
                     .lightLevel((BlockState blockState) -> {
                         return 15;
                     })
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> LIFE_LANTERN_BLOCK = REGISTRIES.registerBlock("life_lantern",

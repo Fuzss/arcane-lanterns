@@ -69,14 +69,15 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
                     }
                     for (int i = 0; i < blockEntity.getContainerSize(); i++) {
                         if (blockEntity.getItem(i).isEmpty()) {
-                            if (!level.isClientSide) {
+                            if (!level.isClientSide()) {
                                 if (player.getAbilities().instabuild) {
                                     itemInHand = itemInHand.copy();
                                 }
                                 blockEntity.setItem(i, itemInHand.split(1));
                                 blockEntity.setChanged();
                             }
-                            return InteractionResultHelper.sidedSuccess(level.isClientSide);
+
+                            return InteractionResultHelper.sidedSuccess(level.isClientSide());
                         }
                     }
                 }
@@ -84,7 +85,7 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
             } else if (player.isSecondaryUseActive()) {
                 for (int i = blockEntity.getContainerSize() - 1; i >= 0; i--) {
                     if (!blockEntity.getItem(i).isEmpty()) {
-                        if (!level.isClientSide) {
+                        if (!level.isClientSide()) {
                             ItemStack itemStack = blockEntity.removeItem(i, 1);
                             blockEntity.setChanged();
                             LanternMakerBlockEntity.dropItemStack(level,
@@ -93,7 +94,8 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
                                     pos.getZ() + 0.5,
                                     itemStack);
                         }
-                        return InteractionResultHelper.sidedSuccess(level.isClientSide);
+
+                        return InteractionResultHelper.sidedSuccess(level.isClientSide());
                     }
                 }
             }

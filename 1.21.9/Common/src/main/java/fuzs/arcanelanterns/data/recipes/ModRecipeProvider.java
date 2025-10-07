@@ -89,7 +89,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(ModRegistry.WARDING_LANTERN_BLOCK.value())
                 .requires(Items.FISHING_ROD)
                 .requires(Items.COBWEB)
-                .requires(Items.CHAIN)
+                .requires(Items.IRON_CHAIN)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
                 .save(recipeOutput);
