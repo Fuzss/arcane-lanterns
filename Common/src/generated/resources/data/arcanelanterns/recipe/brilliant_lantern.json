@@ -1,0 +1,14 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:shulker_shell",
+    "minecraft:paper",
+    "minecraft:snowball",
+    "minecraft:phantom_membrane"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:brilliant_lantern"
+  }
+}

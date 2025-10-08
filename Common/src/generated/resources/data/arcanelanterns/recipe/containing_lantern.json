@@ -1,0 +1,14 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "arcanelanterns:warding_lantern",
+    "minecraft:fishing_rod",
+    "minecraft:cobweb",
+    "minecraft:iron_chain"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:containing_lantern"
+  }
+}
