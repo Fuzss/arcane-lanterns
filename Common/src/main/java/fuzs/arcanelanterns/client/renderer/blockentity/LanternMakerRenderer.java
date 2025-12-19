@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -37,7 +37,7 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
     }
 
     @Override
-    public void extractRenderState(LanternMakerBlockEntity blockEntity, LanternMakerRenderState renderState, float partialTick, Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(LanternMakerBlockEntity blockEntity, LanternMakerRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity,
                 renderState,
                 partialTick,
@@ -60,7 +60,8 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
 
     @Override
     public void submit(LanternMakerRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
-        float itemAngle = 360.0F / renderState.items.stream().filter(Predicate.not(ItemStackRenderState::isEmpty)).count();
+        float itemAngle =
+                360.0F / renderState.items.stream().filter(Predicate.not(ItemStackRenderState::isEmpty)).count();
         for (int i = 0; i < renderState.items.size(); ++i) {
             ItemStackRenderState itemStackRenderState = renderState.items.get(i);
             if (!itemStackRenderState.isEmpty()) {

@@ -13,10 +13,10 @@
 //import net.minecraft.core.RegistryAccess;
 //import net.minecraft.network.codec.ByteBufCodecs;
 //import net.minecraft.network.codec.StreamCodec;
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 //import net.minecraft.world.item.crafting.CraftingInput;
 //import net.minecraft.world.item.crafting.RecipeHolder;
-//import org.jetbrains.annotations.Nullable;
+//import org.jspecify.annotations.Nullable;
 //
 //import java.util.List;
 //import java.util.Optional;
@@ -33,14 +33,14 @@
 //                                            .listOf()
 //                                            .fieldOf("outputs")
 //                                            .forGetter(LanternMakingDisplay::getOutputEntries),
-//                                    ResourceLocation.CODEC.optionalFieldOf("location")
+//                                    Identifier.CODEC.optionalFieldOf("location")
 //                                            .forGetter(LanternMakingDisplay::getDisplayLocation))
 //                            .apply(instance, LanternMakingDisplay::new)),
 //            StreamCodec.composite(EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
 //                    LanternMakingDisplay::getInputEntries,
 //                    EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
 //                    LanternMakingDisplay::getOutputEntries,
-//                    ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC),
+//                    ByteBufCodecs.optional(Identifier.STREAM_CODEC),
 //                    LanternMakingDisplay::getDisplayLocation,
 //                    LanternMakingDisplay::new));
 //
@@ -50,7 +50,7 @@
 //                Optional.of(recipe.id().location()));
 //    }
 //
-//    public LanternMakingDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<ResourceLocation> location) {
+//    public LanternMakingDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Optional<Identifier> location) {
 //        super(inputs, outputs, location);
 //    }
 //

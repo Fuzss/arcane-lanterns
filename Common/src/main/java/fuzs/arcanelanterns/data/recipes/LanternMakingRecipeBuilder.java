@@ -1,8 +1,7 @@
 package fuzs.arcanelanterns.data.recipes;
 
 import fuzs.arcanelanterns.world.item.crafting.LanternMakingRecipe;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementHolder;
+import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
-import org.jetbrains.annotations.Nullable;
 
 public class LanternMakingRecipeBuilder extends ShapelessRecipeBuilder {
 
@@ -23,22 +21,9 @@ public class LanternMakingRecipeBuilder extends ShapelessRecipeBuilder {
 
     @Override
     public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> resourceKey) {
-        super.save(new RecipeOutput() {
-            @Override
-            public void accept(ResourceKey<Recipe<?>> key, Recipe<?> recipe, @Nullable AdvancementHolder advancement) {
-                recipeOutput.accept(key, new LanternMakingRecipe((ShapelessRecipe) recipe), advancement);
-            }
-
-            @Override
-            public Advancement.Builder advancement() {
-                return recipeOutput.advancement();
-            }
-
-            @Override
-            public void includeRootAdvancement() {
-                // NO-OP
-            }
-        }, resourceKey);
+        super.save(TransformingRecipeOutput.transformed(recipeOutput, (Recipe<?> recipe) -> {
+            return new LanternMakingRecipe((ShapelessRecipe) recipe);
+        }), resourceKey);
     }
 
     public static LanternMakingRecipeBuilder recipe(HolderGetter<Item> items, ItemLike result) {

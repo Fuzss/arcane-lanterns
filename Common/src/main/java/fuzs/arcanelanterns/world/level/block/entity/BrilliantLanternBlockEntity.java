@@ -10,8 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
@@ -56,9 +56,9 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
     }
 
     private static void killWithoutLoot(ServerLevel serverLevel, LivingEntity entity) {
-        boolean doMobLoot = serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT);
-        serverLevel.getGameRules().getRule(GameRules.RULE_DOMOBLOOT).set(false, serverLevel.getServer());
+        boolean doMobLoot = serverLevel.getGameRules().get(GameRules.MOB_DROPS);
+        serverLevel.getGameRules().set(GameRules.MOB_DROPS, false, serverLevel.getServer());
         entity.kill(serverLevel);
-        serverLevel.getGameRules().getRule(GameRules.RULE_DOMOBLOOT).set(doMobLoot, serverLevel.getServer());
+        serverLevel.getGameRules().set(GameRules.MOB_DROPS, doMobLoot, serverLevel.getServer());
     }
 }

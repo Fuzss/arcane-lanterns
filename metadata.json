@@ -1,0 +1,62 @@
+{
+    "mod": {
+        "id": "arcanelanterns",
+        "group": "fuzs.arcanelanterns",
+        "name": "Arcane Lanterns",
+        "version": "21.11.0",
+        "authors": [
+            "Playelectro",
+            "Fuzs"
+        ],
+        "description": "Imbue a lantern with different catalysts to manipulate its effects!",
+        "license": "MIT"
+    },
+    "dependencies": [
+        {
+            "name": "fabricapi",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "forgeconfigapiport",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "puzzleslib",
+            "type": "required",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "name": "github",
+            "slug": "arcanelanterns"
+        },
+        {
+            "name": "curseforge",
+            "slug": "arcane-lanterns",
+            "id": "852666"
+        },
+        {
+            "name": "modrinth",
+            "slug": "arcane-lanterns",
+            "id": "NvlReHlC"
+        }
+    ],
+    "environments": {
+        "client": "required",
+        "server": "required"
+    },
+    "platforms": [
+        "fabric",
+        "neoforge"
+    ]
+}
