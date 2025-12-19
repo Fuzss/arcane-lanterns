@@ -1,0 +1,15 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:egg",
+    "minecraft:melon",
+    "minecraft:golden_apple",
+    "minecraft:sugar_cane",
+    "minecraft:bone_meal"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:life_lantern"
+  }
+}

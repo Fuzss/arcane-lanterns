@@ -1,0 +1,14 @@
+{
+  "type": "arcanelanterns:lantern_making",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cobweb",
+    "minecraft:snowball",
+    "minecraft:packed_ice",
+    "minecraft:quartz"
+  ],
+  "result": {
+    "count": 1,
+    "id": "arcanelanterns:boreal_lantern"
+  }
+}
