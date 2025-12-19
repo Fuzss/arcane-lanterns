@@ -13,6 +13,22 @@
     },
     "dependencies": [
         {
+            "name": "jei",
+            "type": "optional",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        },
+        {
+            "name": "rei",
+            "type": "optional",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        },
+        {
             "name": "fabricapi",
             "type": "required",
             "platforms": [
