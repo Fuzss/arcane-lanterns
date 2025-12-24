@@ -12,8 +12,7 @@ import java.util.Objects;
 
 public final class LanternMakingRecipeHelper {
     public static final Component LANTERN_MAKING_COMPONENT = ResourceKeyHelper.getComponent(ModRegistry.LANTERN_MAKING_RECIPE_TYPE.key());
-    public static final Identifier TEXTURE_LOCATION = ArcaneLanterns.id(
-            "textures/gui/lantern_making_background.png");
+    public static final Identifier TEXTURE_LOCATION = ArcaneLanterns.id("textures/gui/lantern_making_background.png");
     public static final int DISPLAY_CATEGORY_WIDTH = 161;
     public static final int DISPLAY_CATEGORY_HEIGHT = 86;
 

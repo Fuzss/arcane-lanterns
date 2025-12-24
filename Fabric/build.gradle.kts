@@ -5,19 +5,19 @@ plugins {
 dependencies {
     modApi(libs.fabricapi.fabric)
     modApi(libs.puzzleslib.fabric)
-//    modCompileOnly(libs.jeiapi.common)
-//    modLocalRuntime(libs.jei.fabric)
+    modCompileOnly(libs.jeiapi.common)
+    modLocalRuntime(libs.jei.fabric)
 //    modCompileOnly(libs.reiapi.fabric)
 //    modLocalRuntime(libs.bundles.rei.fabric)
 }
 
-//multiloader {
-//    modFile {
-//        json {
-//            entrypoint(
-//                "jei_mod_plugin",
-//                "${project.group}.integration.jei.ArcaneLanternsJeiPlugin"
-//            )
+multiloader {
+    modFile {
+        json {
+            entrypoint(
+                "jei_mod_plugin",
+                "${project.group}.integration.jei.ArcaneLanternsJeiPlugin"
+            )
 //            entrypoint(
 //                "rei_common",
 //                "${project.group}.integration.rei.ArcaneLanternsReiPlugin"
@@ -26,6 +26,6 @@ dependencies {
 //                "rei_client",
 //                "${project.group}.integration.rei.ArcaneLanternsReiClientPlugin"
 //            )
-//        }
-//    }
-//}
+        }
+    }
+}

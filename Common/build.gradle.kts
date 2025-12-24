@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     modCompileOnlyApi(libs.puzzleslib.common)
-//    modCompileOnly(libs.jeiapi.common)
+    modCompileOnly(libs.jeiapi.common)
 //    modCompileOnly(libs.reiapi.common)
 }
