@@ -53,13 +53,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "arcanelanterns"
-        },
-        {
             "name": "curseforge",
             "slug": "arcane-lanterns",
             "id": "852666"
+        },
+        {
+            "name": "github",
+            "slug": "arcanelanterns"
         },
         {
             "name": "modrinth",
