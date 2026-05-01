@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    modCompileOnlyApi(libs.puzzleslib.common)
-    modCompileOnly(libs.jeiapi.common)
-//    modCompileOnly(libs.reiapi.common)
+    modCompileOnlyApi(sharedLibs.puzzleslib.common)
+    modCompileOnly(sharedLibs.jeiapi.common)
+//    modCompileOnly(sharedLibs.reiapi.common)
 }
