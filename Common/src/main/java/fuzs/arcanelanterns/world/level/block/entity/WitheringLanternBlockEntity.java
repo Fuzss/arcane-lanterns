@@ -19,27 +19,27 @@ public class WitheringLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.EffectLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).witheringLantern;
-        if (++this.ticks <= config.delay) return;
-        final int horizontalRange = config.horizontalRange;
-        final int verticalRange = config.verticalRange;
-        this.getLevel()
-                .getEntitiesOfClass(LivingEntity.class,
-                        new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
-                                this.getBlockPos().getY() + 0.5 - verticalRange,
-                                this.getBlockPos().getZ() + 0.5 - horizontalRange,
-                                this.getBlockPos().getX() + 0.5 + horizontalRange,
-                                this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange
-                        ),
-                        entity -> !(entity instanceof Player) && !entity.isInvulnerableTo((ServerLevel) this.getLevel(), this.getLevel()
-                                .damageSources()
-                                .wither())
-                )
-                .forEach((entity) -> {
-                    entity.addEffect(new MobEffectInstance(MobEffects.WITHER, config.effectDuration * 20, 0));
-                });
+        if (++this.ticks <= config.delay) {
+            return;
+        }
+
+        int horizontalRange = config.horizontalRange;
+        int verticalRange = config.verticalRange;
+        serverLevel.getEntitiesOfClass(LivingEntity.class,
+                new AABB(blockPos.getX() + 0.5 - horizontalRange,
+                        blockPos.getY() + 0.5 - verticalRange,
+                        blockPos.getZ() + 0.5 - horizontalRange,
+                        blockPos.getX() + 0.5 + horizontalRange,
+                        blockPos.getY() + 0.5 + verticalRange,
+                        blockPos.getZ() + 0.5 + horizontalRange),
+                (LivingEntity entity) -> {
+                    return !(entity instanceof Player) && !entity.isInvulnerableTo(serverLevel,
+                            serverLevel.damageSources().wither());
+                }).forEach((entity) -> {
+            entity.addEffect(new MobEffectInstance(MobEffects.WITHER, config.effectDuration * 20, 0));
+        });
         this.ticks = 0;
     }
 }

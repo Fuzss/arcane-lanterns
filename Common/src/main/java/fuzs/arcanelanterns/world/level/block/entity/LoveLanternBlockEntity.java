@@ -4,6 +4,7 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,27 +22,29 @@ public class LoveLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.LoveLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).loveLantern;
-        if (++this.ticks <= config.delay) return;
-        final int horizontalRange = config.horizontalRange;
-        final int verticalRange = config.verticalRange;
-        List<Animal> nearbyAnimals = this.getLevel()
-                .getEntitiesOfClass(Animal.class,
-                        new AABB(this.getBlockPos().getX() - horizontalRange,
-                                this.getBlockPos().getY() - verticalRange,
-                                this.getBlockPos().getZ() - horizontalRange,
-                                this.getBlockPos().getX() + horizontalRange,
-                                this.getBlockPos().getY() + verticalRange,
-                                this.getBlockPos().getZ() + horizontalRange
-                        )
-                );
+        if (++this.ticks <= config.delay) {
+            return;
+        }
+
+        int horizontalRange = config.horizontalRange;
+        int verticalRange = config.verticalRange;
+        List<Animal> nearbyAnimals = serverLevel.getEntitiesOfClass(Animal.class,
+                new AABB(blockPos.getX() - horizontalRange,
+                        blockPos.getY() - verticalRange,
+                        blockPos.getZ() - horizontalRange,
+                        blockPos.getX() + horizontalRange,
+                        blockPos.getY() + verticalRange,
+                        blockPos.getZ() + horizontalRange));
         Collection<List<Animal>> animalsByType = nearbyAnimals.stream()
                 .collect(Collectors.groupingBy(Entity::getType))
                 .values();
         for (List<Animal> animals : animalsByType) {
             if (animals.size() <= config.maxAnimals) {
-                animals.removeIf(animal -> animal.getAge() != 0 || !animal.canFallInLove());
+                animals.removeIf((Animal animal) -> {
+                    return animal.getAge() != 0 || !animal.canFallInLove();
+                });
                 if (animals.size() >= 2) {
                     Collections.shuffle(animals);
                     for (int i = 0; i < 2; i++) {
@@ -50,6 +53,7 @@ public class LoveLanternBlockEntity extends LanternBlockEntity {
                 }
             }
         }
+
         this.ticks = 0;
     }
 }

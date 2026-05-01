@@ -2,8 +2,8 @@ package fuzs.arcanelanterns.fabric;
 
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
-import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
+import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
+import fuzs.puzzleslib.common.api.core.v1.ModLoaderEnvironment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 

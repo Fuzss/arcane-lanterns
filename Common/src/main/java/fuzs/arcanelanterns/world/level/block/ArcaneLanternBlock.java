@@ -3,7 +3,7 @@ package fuzs.arcanelanterns.world.level.block;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fuzs.arcanelanterns.world.level.block.entity.LanternBlockEntity;
-import fuzs.puzzleslib.api.block.v1.entity.TickingEntityBlock;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingEntityBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;

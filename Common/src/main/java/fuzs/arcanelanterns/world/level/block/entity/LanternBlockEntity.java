@@ -1,8 +1,9 @@
 package fuzs.arcanelanterns.world.level.block.entity;
 
 import fuzs.arcanelanterns.ArcaneLanterns;
-import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +20,7 @@ public abstract class LanternBlockEntity extends BlockEntity implements TickingB
     }
 
     @Override
-    public abstract void serverTick();
+    public abstract void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState);
 
     @Override
     protected void loadAdditional(ValueInput valueInput) {

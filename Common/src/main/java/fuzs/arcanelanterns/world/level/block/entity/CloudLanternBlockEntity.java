@@ -4,6 +4,7 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySelector;
@@ -18,27 +19,24 @@ public class CloudLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.EffectLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).cloudLantern;
-        if (++this.ticks <= config.delay) return;
-        final int horizontalRange = config.horizontalRange;
-        final int verticalRange = config.verticalRange;
-        this.getLevel()
-                .getEntitiesOfClass(Player.class,
-                        new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
-                                this.getBlockPos().getY() + 0.5 - verticalRange,
-                                this.getBlockPos().getZ() + 0.5 - horizontalRange,
-                                this.getBlockPos().getX() + 0.5 + horizontalRange,
-                                this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange),
-                        EntitySelector.NO_SPECTATORS)
-                .forEach((Player player) -> {
-                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
-                            config.effectDuration * 20,
-                            0,
-                            true,
-                            true));
-                });
+        if (++this.ticks <= config.delay) {
+            return;
+        }
+
+        int horizontalRange = config.horizontalRange;
+        int verticalRange = config.verticalRange;
+        serverLevel.getEntitiesOfClass(Player.class,
+                new AABB(blockPos.getX() + 0.5 - horizontalRange,
+                        blockPos.getY() + 0.5 - verticalRange,
+                        blockPos.getZ() + 0.5 - horizontalRange,
+                        blockPos.getX() + 0.5 + horizontalRange,
+                        blockPos.getY() + 0.5 + verticalRange,
+                        blockPos.getZ() + 0.5 + horizontalRange),
+                EntitySelector.NO_SPECTATORS).forEach((Player player) -> {
+            player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, config.effectDuration * 20, 0, true, true));
+        });
         this.ticks = 0;
     }
 }

@@ -2,7 +2,7 @@ package fuzs.arcanelanterns.integration;
 
 import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.init.ModRegistry;
-import fuzs.puzzleslib.api.init.v3.registry.ResourceKeyHelper;
+import fuzs.puzzleslib.common.api.init.v3.registry.ResourceKeyHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeMap;

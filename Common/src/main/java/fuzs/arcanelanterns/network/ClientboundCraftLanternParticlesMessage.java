@@ -1,7 +1,7 @@
 package fuzs.arcanelanterns.network;
 
-import fuzs.puzzleslib.api.network.v4.message.MessageListener;
-import fuzs.puzzleslib.api.network.v4.message.play.ClientboundPlayMessage;
+import fuzs.puzzleslib.common.api.network.v4.message.MessageListener;
+import fuzs.puzzleslib.common.api.network.v4.message.play.ClientboundPlayMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,7 +22,7 @@ public record ClientboundCraftLanternParticlesMessage(BlockPos blockPos) impleme
             @Override
             public void accept(Context context) {
                 BlockPos blockPos = ClientboundCraftLanternParticlesMessage.this.blockPos;
-                RandomSource randomSource = context.level().random;
+                RandomSource randomSource = context.level().getRandom();
                 context.level()
                         .playLocalSound(blockPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1, 1, true);
                 for (int i = 0; i < 20; i++) {

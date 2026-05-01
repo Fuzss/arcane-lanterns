@@ -1,21 +1,21 @@
 package fuzs.arcanelanterns.data.recipes;
 
 import fuzs.arcanelanterns.world.item.crafting.LanternMakingRecipe;
-import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
+import fuzs.puzzleslib.common.api.data.v2.recipes.TransformingRecipeOutput;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 
 public class LanternMakingRecipeBuilder extends ShapelessRecipeBuilder {
 
-    private LanternMakingRecipeBuilder(HolderGetter<Item> items, ItemStack result) {
+    private LanternMakingRecipeBuilder(HolderGetter<Item> items, ItemStackTemplate result) {
         super(items, RecipeCategory.MISC, result);
     }
 
@@ -31,6 +31,6 @@ public class LanternMakingRecipeBuilder extends ShapelessRecipeBuilder {
     }
 
     public static LanternMakingRecipeBuilder recipe(HolderGetter<Item> items, ItemLike result, int count) {
-        return new LanternMakingRecipeBuilder(items, result.asItem().getDefaultInstance().copyWithCount(count));
+        return new LanternMakingRecipeBuilder(items, new ItemStackTemplate(result.asItem(), count));
     }
 }

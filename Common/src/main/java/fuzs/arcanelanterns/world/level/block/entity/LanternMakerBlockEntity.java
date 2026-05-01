@@ -3,11 +3,11 @@ package fuzs.arcanelanterns.world.level.block.entity;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.network.ClientboundCraftLanternParticlesMessage;
 import fuzs.arcanelanterns.world.item.crafting.LanternMakingRecipe;
-import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
-import fuzs.puzzleslib.api.container.v1.ContainerSerializationHelper;
-import fuzs.puzzleslib.api.container.v1.ListBackedContainer;
-import fuzs.puzzleslib.api.network.v4.MessageSender;
-import fuzs.puzzleslib.api.network.v4.PlayerSet;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingBlockEntity;
+import fuzs.puzzleslib.common.api.container.v1.ContainerSerializationHelper;
+import fuzs.puzzleslib.common.api.container.v1.ListBackedContainer;
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
+import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -19,8 +19,8 @@ import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,47 +41,43 @@ public class LanternMakerBlockEntity extends BlockEntity implements CraftingCont
     }
 
     @Override
-    public void serverTick() {
-        BlockPos posAbove = this.getBlockPos().above();
-        BlockState stateAbove = this.getLevel().getBlockState(posAbove);
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
+        BlockPos posAbove = blockPos.above();
+        BlockState stateAbove = serverLevel.getBlockState(posAbove);
         if (stateAbove.is(Blocks.LANTERN) || stateAbove.is(Blocks.SOUL_LANTERN)) {
-            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), (ServerLevel) this.getLevel())
-                    .map(recipe -> recipe.value().assemble(this.asCraftInput(), this.getLevel().registryAccess()))
+            ItemStack result = this.quickCheck.getRecipeFor(this.asCraftInput(), serverLevel)
+                    .map((RecipeHolder<LanternMakingRecipe> recipe) -> recipe.value().assemble(this.asCraftInput()))
                     .orElse(ItemStack.EMPTY);
             if (!result.isEmpty()) {
                 for (ItemStack stack : this.items) {
                     if (!stack.isEmpty()) stack.shrink(1);
                 }
+
                 this.setChanged();
-                this.getLevel().destroyBlock(posAbove, false);
-                dropItemStack(this.getLevel(),
-                        this.getBlockPos().getX() + 0.5,
-                        this.getBlockPos().getY() + 1.0,
-                        this.getBlockPos().getZ() + 0.5,
-                        result);
+                serverLevel.destroyBlock(posAbove, false);
+                dropItemStack(serverLevel, blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5, result);
                 MessageSender.broadcast(PlayerSet.nearBlockEntity(this),
-                        new ClientboundCraftLanternParticlesMessage(this.getBlockPos()));
+                        new ClientboundCraftLanternParticlesMessage(blockPos));
             } else {
-                destroyBlockDropCentered(this.getLevel(), stateAbove, posAbove);
+                destroyBlockDropCentered(serverLevel, stateAbove, posAbove);
             }
         }
     }
 
-    public static void dropItemStack(Level level, double posX, double posY, double posZ, ItemStack stack) {
-        ItemEntity itemEntity = new ItemEntity(level, posX, posY, posZ, stack);
+    public static void dropItemStack(ServerLevel serverLevel, double posX, double posY, double posZ, ItemStack stack) {
+        ItemEntity itemEntity = new ItemEntity(serverLevel, posX, posY, posZ, stack);
         itemEntity.setDeltaMovement(Vec3.ZERO);
         itemEntity.setDefaultPickUpDelay();
-        level.addFreshEntity(itemEntity);
+        serverLevel.addFreshEntity(itemEntity);
     }
 
-    private static void destroyBlockDropCentered(Level level, BlockState state, BlockPos pos) {
-        BlockEntity blockEntityAbove = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
-        level.destroyBlock(pos, false);
-        Block.getDrops(state, (ServerLevel) level, pos, blockEntityAbove, null, ItemStack.EMPTY)
-                .forEach((itemStack) -> {
-                    dropItemStack(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, itemStack);
-                });
-        state.spawnAfterBreak((ServerLevel) level, pos, ItemStack.EMPTY, true);
+    private static void destroyBlockDropCentered(ServerLevel serverLevel, BlockState state, BlockPos pos) {
+        BlockEntity blockEntityAbove = state.hasBlockEntity() ? serverLevel.getBlockEntity(pos) : null;
+        serverLevel.destroyBlock(pos, false);
+        Block.getDrops(state, serverLevel, pos, blockEntityAbove, null, ItemStack.EMPTY).forEach((itemStack) -> {
+            dropItemStack(serverLevel, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, itemStack);
+        });
+        state.spawnAfterBreak(serverLevel, pos, ItemStack.EMPTY, true);
     }
 
     @Override

@@ -5,8 +5,8 @@ import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.integration.LanternMakingRecipeHelper;
 import fuzs.arcanelanterns.world.level.block.ArcaneLanternBlock;
 import fuzs.arcanelanterns.world.level.block.LanternMakerBlock;
-import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v2.AbstractLanguageProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
 

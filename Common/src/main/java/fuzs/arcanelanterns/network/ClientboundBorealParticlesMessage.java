@@ -1,7 +1,7 @@
 package fuzs.arcanelanterns.network;
 
-import fuzs.puzzleslib.api.network.v4.message.MessageListener;
-import fuzs.puzzleslib.api.network.v4.message.play.ClientboundPlayMessage;
+import fuzs.puzzleslib.common.api.network.v4.message.MessageListener;
+import fuzs.puzzleslib.common.api.network.v4.message.play.ClientboundPlayMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,7 +24,7 @@ public record ClientboundBorealParticlesMessage(BlockPos blockPos,
             public void accept(Context context) {
                 BlockPos blockPos = ClientboundBorealParticlesMessage.this.blockPos;
                 BlockPos entityPos = ClientboundBorealParticlesMessage.this.entityPos;
-                RandomSource randomSource = context.level().random;
+                RandomSource randomSource = context.level().getRandom();
                 for (int i = 0; i < 2; ++i) {
                     double posX = blockPos.getX() + randomSource.nextDouble();
                     double posY = blockPos.getY() + randomSource.nextDouble();

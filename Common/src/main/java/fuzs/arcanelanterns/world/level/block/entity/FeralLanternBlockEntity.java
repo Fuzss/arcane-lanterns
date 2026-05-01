@@ -5,6 +5,7 @@ import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -19,44 +20,48 @@ public class FeralLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.FeralLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).feralLantern;
         if (++this.ticks > config.delay && !this.isDonePlacing()) {
-            BlockPos.MutableBlockPos mutable = this.getBlockPos().mutable();
+            BlockPos.MutableBlockPos mutable = blockPos.mutable();
             mutable.move(-config.horizontalRange, -config.verticalRange, -config.horizontalRange);
-            mutable.move(this.getLevel().random.nextInt(config.horizontalRange * 2),
-                    this.getLevel().random.nextInt(config.verticalRange * 2),
-                    this.getLevel().random.nextInt(config.horizontalRange * 2));
+            mutable.move(serverLevel.getRandom().nextInt(config.horizontalRange * 2),
+                    serverLevel.getRandom().nextInt(config.verticalRange * 2),
+                    serverLevel.getRandom().nextInt(config.horizontalRange * 2));
             // max manhattan distance approximation
             int maxDistance = 5 * (config.horizontalRange + config.verticalRange) / 7;
-            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel().isOutsideBuildHeight(mutable)
-                    && this.getLevel().getBlockState(mutable).getCollisionShape(this.getLevel(), mutable).isEmpty()) {
+            while (mutable.closerThan(blockPos, maxDistance) && !serverLevel.isOutsideBuildHeight(mutable)
+                    && serverLevel.getBlockState(mutable).getCollisionShape(serverLevel, mutable).isEmpty()) {
                 mutable.move(Direction.DOWN);
             }
-            while (mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel().isOutsideBuildHeight(mutable)
-                    && !this.getLevel().getBlockState(mutable).getCollisionShape(this.getLevel(), mutable).isEmpty()) {
+
+            while (mutable.closerThan(blockPos, maxDistance) && !serverLevel.isOutsideBuildHeight(mutable)
+                    && !serverLevel.getBlockState(mutable).getCollisionShape(serverLevel, mutable).isEmpty()) {
                 mutable.move(Direction.UP);
             }
-            if (this.getLevel().getMaxLocalRawBrightness(mutable) < config.maxLightLevel) {
-                if (!this.getLevel()
-                        .getBlockState(mutable.below())
-                        .getCollisionShape(this.getLevel(), mutable.below())
+
+            if (serverLevel.getMaxLocalRawBrightness(mutable) < config.maxLightLevel) {
+                if (!serverLevel.getBlockState(mutable.below())
+                        .getCollisionShape(serverLevel, mutable.below())
                         .isEmpty()) {
                     mutable.move(Direction.UP, 3);
-                    for (int i = 0; i < 3 && mutable.closerThan(this.getBlockPos(), maxDistance) && !this.getLevel()
-                            .getBlockState(mutable)
-                            .isAir(); i++) {
+                    for (int i = 0;
+                         i < 3 && mutable.closerThan(blockPos, maxDistance) && !serverLevel.getBlockState(mutable)
+                                 .isAir(); i++) {
                         mutable.move(Direction.DOWN);
                     }
-                    if (this.getLevel().getBlockState(mutable).isAir()) {
-                        this.getLevel().setBlockAndUpdate(mutable, ModRegistry.SPARK_BLOCK.value().defaultBlockState());
-                        if (this.getLevel().getBlockEntity(mutable) instanceof SparkBlockEntity sparkBlockEntity) {
-                            sparkBlockEntity.blockPos = this.getBlockPos();
+
+                    if (serverLevel.getBlockState(mutable).isAir()) {
+                        serverLevel.setBlockAndUpdate(mutable, ModRegistry.SPARK_BLOCK.value().defaultBlockState());
+                        if (serverLevel.getBlockEntity(mutable) instanceof SparkBlockEntity sparkBlockEntity) {
+                            sparkBlockEntity.blockPos = blockPos;
                         }
+
                         this.placedFlares++;
                     }
                 }
             }
+
             this.ticks = 0;
         }
     }

@@ -3,8 +3,7 @@ package fuzs.arcanelanterns.world.level.block;
 import com.mojang.serialization.MapCodec;
 import fuzs.arcanelanterns.init.ModRegistry;
 import fuzs.arcanelanterns.world.level.block.entity.LanternMakerBlockEntity;
-import fuzs.puzzleslib.api.block.v1.entity.TickingEntityBlock;
-import fuzs.puzzleslib.api.util.v1.InteractionResultHelper;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingEntityBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -65,8 +64,9 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
             if (!itemInHand.isEmpty()) {
                 if (level.getBlockState(pos.above()).isAir()) {
                     if (itemInHand.is(Items.LANTERN) || itemInHand.is(Items.SOUL_LANTERN)) {
-                        return InteractionResultHelper.SKIP_DEFAULT_BLOCK_INTERACTION;
+                        return InteractionResult.PASS;
                     }
+
                     for (int i = 0; i < blockEntity.getContainerSize(); i++) {
                         if (blockEntity.getItem(i).isEmpty()) {
                             if (!level.isClientSide()) {
@@ -77,31 +77,32 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
                                 blockEntity.setChanged();
                             }
 
-                            return InteractionResultHelper.sidedSuccess(level.isClientSide());
+                            return InteractionResult.SUCCESS;
                         }
                     }
                 }
-                return InteractionResultHelper.CONSUME;
+
+                return InteractionResult.CONSUME;
             } else if (player.isSecondaryUseActive()) {
                 for (int i = blockEntity.getContainerSize() - 1; i >= 0; i--) {
                     if (!blockEntity.getItem(i).isEmpty()) {
-                        if (!level.isClientSide()) {
+                        if (level instanceof ServerLevel serverLevel) {
                             ItemStack itemStack = blockEntity.removeItem(i, 1);
                             blockEntity.setChanged();
-                            LanternMakerBlockEntity.dropItemStack(level,
+                            LanternMakerBlockEntity.dropItemStack(serverLevel,
                                     pos.getX() + 0.5,
                                     pos.getY() + 1.0,
                                     pos.getZ() + 0.5,
                                     itemStack);
                         }
 
-                        return InteractionResultHelper.sidedSuccess(level.isClientSide());
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }
         }
 
-        return InteractionResultHelper.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override

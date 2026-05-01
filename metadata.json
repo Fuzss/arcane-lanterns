@@ -1,9 +1,10 @@
 {
+    "minecraft": "26.1.2",
     "mod": {
         "id": "arcanelanterns",
         "group": "fuzs.arcanelanterns",
         "name": "Arcane Lanterns",
-        "version": "21.11.1",
+        "version": "26.1.0",
         "authors": [
             "Playelectro",
             "Fuzs"
@@ -59,7 +60,7 @@
         },
         {
             "name": "github",
-            "slug": "arcanelanterns"
+            "slug": "arcane-lanterns"
         },
         {
             "name": "modrinth",

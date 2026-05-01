@@ -23,29 +23,32 @@ public class BrilliantLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.BrilliantLanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).brilliantLantern;
-        if (++this.ticks <= config.delay) return;
-        final int horizontalRange = config.horizontalRange;
-        final int verticalRange = config.verticalRange;
-        List<Animal> animals = this.getLevel()
-                .getEntitiesOfClass(Animal.class,
-                        new AABB(this.getBlockPos().getX() + 0.5 - horizontalRange,
-                                this.getBlockPos().getY() + 0.5 - verticalRange,
-                                this.getBlockPos().getZ() + 0.5 - horizontalRange,
-                                this.getBlockPos().getX() + 0.5 + horizontalRange,
-                                this.getBlockPos().getY() + 0.5 + verticalRange,
-                                this.getBlockPos().getZ() + 0.5 + horizontalRange),
-                        BrilliantLanternBlockEntity::isValidAnimal);
+        if (++this.ticks <= config.delay) {
+            return;
+        }
+
+        int horizontalRange = config.horizontalRange;
+        int verticalRange = config.verticalRange;
+        List<Animal> animals = serverLevel.getEntitiesOfClass(Animal.class,
+                new AABB(blockPos.getX() + 0.5 - horizontalRange,
+                        blockPos.getY() + 0.5 - verticalRange,
+                        blockPos.getZ() + 0.5 - horizontalRange,
+                        blockPos.getX() + 0.5 + horizontalRange,
+                        blockPos.getY() + 0.5 + verticalRange,
+                        blockPos.getZ() + 0.5 + horizontalRange),
+                BrilliantLanternBlockEntity::isValidAnimal);
         if (!animals.isEmpty()) {
             Animal animal = animals.getFirst();
             // make sure equipment still drops, but nothing else
-            killWithoutLoot((ServerLevel) this.getLevel(), animal);
+            killWithoutLoot(serverLevel, animal);
             // allow experience to drop
             animal.setLastHurtByPlayer((EntityReference<Player>) null, 100);
-            animal.dropExperience((ServerLevel) this.getLevel(), null);
+            animal.dropExperience(serverLevel, null);
             animal.skipDropExperience();
         }
+
         this.ticks = 0;
     }
 

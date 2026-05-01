@@ -4,6 +4,7 @@ import fuzs.arcanelanterns.ArcaneLanterns;
 import fuzs.arcanelanterns.config.ServerConfig;
 import fuzs.arcanelanterns.init.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,28 +17,28 @@ public class WardingLanternBlockEntity extends LanternBlockEntity {
     }
 
     @Override
-    public void serverTick() {
+    public void serverTick(ServerLevel serverLevel, BlockPos blockPos, BlockState blockState) {
         ServerConfig.LanternConfig config = ArcaneLanterns.CONFIG.get(ServerConfig.class).wardingLantern;
-        if (++this.ticks <= config.delay) return;
-        final int horizontalRange = config.horizontalRange;
-        final int verticalRange = config.verticalRange;
-        this.getLevel()
-                .getEntitiesOfClass(LivingEntity.class,
-                        new AABB(this.getBlockPos().getX() - horizontalRange,
-                                this.getBlockPos().getY() - verticalRange,
-                                this.getBlockPos().getZ() - horizontalRange,
-                                this.getBlockPos().getX() + horizontalRange,
-                                this.getBlockPos().getY() + verticalRange,
-                                this.getBlockPos().getZ() + horizontalRange
-                        ),
-                        entity -> !(entity instanceof Player)
-                )
-                .forEach((entity) -> {
-                    entity.push((double) (-this.getBlockPos().getX() + entity.blockPosition().getX()) / 10,
-                            (double) (-this.getBlockPos().getY() + entity.blockPosition().getY()) / 10,
-                            (double) (-this.getBlockPos().getZ() + entity.blockPosition().getZ()) / 10
-                    );
-                });
+        if (++this.ticks <= config.delay) {
+            return;
+        }
+
+        int horizontalRange = config.horizontalRange;
+        int verticalRange = config.verticalRange;
+        serverLevel.getEntitiesOfClass(LivingEntity.class,
+                new AABB(blockPos.getX() - horizontalRange,
+                        blockPos.getY() - verticalRange,
+                        blockPos.getZ() - horizontalRange,
+                        blockPos.getX() + horizontalRange,
+                        blockPos.getY() + verticalRange,
+                        blockPos.getZ() + horizontalRange),
+                (LivingEntity entity) -> {
+                    return !(entity instanceof Player);
+                }).forEach((LivingEntity entity) -> {
+            entity.push((double) (-blockPos.getX() + entity.blockPosition().getX()) / 10,
+                    (double) (-blockPos.getY() + entity.blockPosition().getY()) / 10,
+                    (double) (-blockPos.getZ() + entity.blockPosition().getZ()) / 10);
+        });
         this.ticks = 0;
     }
 }

@@ -6,7 +6,7 @@ import fuzs.arcanelanterns.world.level.block.ArcaneLanternBlock;
 import fuzs.arcanelanterns.world.level.block.LanternMakerBlock;
 import fuzs.arcanelanterns.world.level.block.SparkBlock;
 import fuzs.arcanelanterns.world.level.block.entity.*;
-import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
+import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
@@ -153,7 +153,7 @@ public class ModRegistry {
     public static final Holder.Reference<RecipeSerializer<LanternMakingRecipe>> LANTERN_MAKING_RECIPE_SERIALIZER = REGISTRIES.register(
             Registries.RECIPE_SERIALIZER,
             "lantern_making",
-            LanternMakingRecipe.Serializer::new);
+            () -> LanternMakingRecipe.SERIALIZER);
 
     public static void bootstrap() {
         // NO-OP
