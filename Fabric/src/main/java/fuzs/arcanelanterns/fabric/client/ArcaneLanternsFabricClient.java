@@ -1,8 +1,8 @@
 package fuzs.arcanelanterns.fabric.client;
 
-import fuzs.arcanelanterns.ArcaneLanterns;
-import fuzs.arcanelanterns.client.ArcaneLanternsClient;
-import fuzs.arcanelanterns.integration.LanternMakingRecipeHelper;
+import fuzs.arcanelanterns.common.ArcaneLanterns;
+import fuzs.arcanelanterns.common.client.ArcaneLanternsClient;
+import fuzs.arcanelanterns.common.integration.LanternMakingRecipeHelper;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.ModLoaderEnvironment;
 import fuzs.puzzleslib.fabric.api.client.event.v1.FabricClientPlayerEvents;

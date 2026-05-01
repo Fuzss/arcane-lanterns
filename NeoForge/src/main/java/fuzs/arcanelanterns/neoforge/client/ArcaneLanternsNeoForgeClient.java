@@ -1,10 +1,10 @@
 package fuzs.arcanelanterns.neoforge.client;
 
-import fuzs.arcanelanterns.ArcaneLanterns;
-import fuzs.arcanelanterns.client.ArcaneLanternsClient;
-import fuzs.arcanelanterns.data.client.ModLanguageProvider;
-import fuzs.arcanelanterns.data.client.ModModelProvider;
-import fuzs.arcanelanterns.integration.LanternMakingRecipeHelper;
+import fuzs.arcanelanterns.common.ArcaneLanterns;
+import fuzs.arcanelanterns.common.client.ArcaneLanternsClient;
+import fuzs.arcanelanterns.common.data.client.ModLanguageProvider;
+import fuzs.arcanelanterns.common.data.client.ModModelProvider;
+import fuzs.arcanelanterns.common.integration.LanternMakingRecipeHelper;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.ModLoaderEnvironment;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;

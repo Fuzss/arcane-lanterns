@@ -1,10 +1,10 @@
 package fuzs.arcanelanterns.neoforge;
 
-import fuzs.arcanelanterns.ArcaneLanterns;
-import fuzs.arcanelanterns.data.ModBlockLootProvider;
-import fuzs.arcanelanterns.data.ModBlockTagProvider;
-import fuzs.arcanelanterns.data.recipes.ModRecipeProvider;
-import fuzs.arcanelanterns.init.ModRegistry;
+import fuzs.arcanelanterns.common.ArcaneLanterns;
+import fuzs.arcanelanterns.common.data.ModBlockLootProvider;
+import fuzs.arcanelanterns.common.data.ModBlockTagProvider;
+import fuzs.arcanelanterns.common.data.recipes.ModRecipeProvider;
+import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.ModLoaderEnvironment;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
