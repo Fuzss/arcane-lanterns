@@ -1,6 +1,5 @@
 {
   "type": "arcanelanterns:lantern_making",
-  "category": "misc",
   "ingredients": [
     "minecraft:phantom_membrane",
     "minecraft:soul_torch",

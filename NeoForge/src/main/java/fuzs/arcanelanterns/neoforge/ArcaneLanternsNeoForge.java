@@ -1,8 +1,8 @@
 package fuzs.arcanelanterns.neoforge;
 
 import fuzs.arcanelanterns.common.ArcaneLanterns;
-import fuzs.arcanelanterns.common.data.ModBlockLootProvider;
-import fuzs.arcanelanterns.common.data.ModBlockTagProvider;
+import fuzs.arcanelanterns.common.data.loot.ModBlockLootProvider;
+import fuzs.arcanelanterns.common.data.tags.ModBlockTagsProvider;
 import fuzs.arcanelanterns.common.data.recipes.ModRecipeProvider;
 import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
@@ -21,7 +21,7 @@ public class ArcaneLanternsNeoForge {
         registerEventHandlers(NeoForge.EVENT_BUS);
         DataProviderHelper.registerDataProviders(ArcaneLanterns.MOD_ID,
                 ModBlockLootProvider::new,
-                ModBlockTagProvider::new,
+                ModBlockTagsProvider::new,
                 ModRecipeProvider::new);
     }
 

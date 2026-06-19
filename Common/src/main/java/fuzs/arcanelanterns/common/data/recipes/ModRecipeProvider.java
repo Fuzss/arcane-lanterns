@@ -105,7 +105,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(Items.PHANTOM_MEMBRANE)
                 .requires(Items.SOUL_TORCH)
                 .requires(Items.SNOW_BLOCK)
-                .requires(Items.WHITE_WOOL)
+                .requires(Items.WOOL.white())
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
                 .save(recipeOutput);

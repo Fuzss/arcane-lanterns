@@ -1,4 +1,4 @@
-package fuzs.arcanelanterns.common.data;
+package fuzs.arcanelanterns.common.data.loot;
 
 import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;

@@ -1,6 +1,5 @@
 {
   "type": "arcanelanterns:lantern_making",
-  "category": "misc",
   "ingredients": [
     "minecraft:ghast_tear",
     "minecraft:warped_roots",
