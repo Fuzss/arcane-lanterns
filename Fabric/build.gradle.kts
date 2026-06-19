@@ -10,7 +10,7 @@ dependencies {
     modApi(sharedLibs.puzzleslib.fabric)
 //    compileOnly(sharedLibs.jeiapi.common)
 //    localRuntime(sharedLibs.jei.fabric)
-    compileOnly(sharedLibs.reiapi.fabric)
+    compileOnly(sharedLibs.bundles.reiapi.fabric)
     localRuntime(sharedLibs.bundles.rei.fabric)
 }
 
