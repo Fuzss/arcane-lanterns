@@ -8,7 +8,7 @@ plugins {
 dependencies {
     modApi(sharedLibs.fabricapi.fabric)
     modApi(sharedLibs.puzzleslib.fabric)
-//    compileOnly(sharedLibs.jeiapi.common)
+    compileOnly(sharedLibs.jeiapi.common)
 //    localRuntime(sharedLibs.jei.fabric)
     compileOnly(sharedLibs.bundles.reiapi.fabric)
     localRuntime(sharedLibs.bundles.rei.fabric)
@@ -17,10 +17,10 @@ dependencies {
 multiloader {
     modFile {
         json {
-//            entrypoint(
-//                "jei_mod_plugin",
-//                "${project.group}.${project.commonProject.packageName}.integration.jei.ArcaneLanternsJeiPlugin"
-//            )
+            entrypoint(
+                "jei_mod_plugin",
+                "${project.group}.${project.commonProject.packageName}.integration.jei.ArcaneLanternsJeiPlugin"
+            )
             entrypoint(
                 "rei_common",
                 "${project.group}.${project.commonProject.packageName}.integration.rei.ArcaneLanternsReiPlugin"
