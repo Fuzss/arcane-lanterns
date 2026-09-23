@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "arcanelanterns:warding_lantern"
+        "recipes": "arcanelanterns:warding_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

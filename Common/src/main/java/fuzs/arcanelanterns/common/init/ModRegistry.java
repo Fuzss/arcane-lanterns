@@ -43,7 +43,7 @@ public class ModRegistry {
                     })
                     .noCollision()
                     .noOcclusion()
-                    .pushReaction(PushReaction.DESTROY));
+                    .pushReaction(PushReaction.POPPED));
     public static final Holder.Reference<Block> LIFE_LANTERN_BLOCK = REGISTRIES.registerBlock("life_lantern",
             (BlockBehaviour.Properties properties) -> new ArcaneLanternBlock(() -> ModRegistry.LIFE_LANTERN_BLOCK_ENTITY.value(),
                     properties),

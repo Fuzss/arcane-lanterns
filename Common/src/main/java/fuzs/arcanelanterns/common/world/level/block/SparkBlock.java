@@ -1,6 +1,5 @@
 package fuzs.arcanelanterns.common.world.level.block;
 
-import com.mojang.serialization.MapCodec;
 import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.arcanelanterns.common.world.level.block.entity.SparkBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -19,16 +18,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
 public class SparkBlock extends BaseEntityBlock {
-    public static final MapCodec<SparkBlock> CODEC = simpleCodec(SparkBlock::new);
     private static final VoxelShape SHAPE = Block.box(6.0, 6.0, 6.0, 10.0, 10.0, 10.0);
 
     public SparkBlock(BlockBehaviour.Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -57,7 +50,7 @@ public class SparkBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void spawnDestroyParticles(Level level, Player player, BlockPos pos, BlockState state) {
+    public void spawnDestroyParticles(Level level, BlockPos pos, BlockState state) {
         // NO-OP
     }
 

@@ -7,7 +7,8 @@ import fuzs.arcanelanterns.common.data.recipes.ModRecipeProvider;
 import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.ModLoaderEnvironment;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
+import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
@@ -19,10 +20,10 @@ public class ArcaneLanternsNeoForge {
     public ArcaneLanternsNeoForge() {
         ModConstructor.construct(ArcaneLanterns.MOD_ID, ArcaneLanterns::new);
         registerEventHandlers(NeoForge.EVENT_BUS);
-        DataProviderHelper.registerDataProviders(ArcaneLanterns.MOD_ID,
-                ModBlockLootProvider::new,
-                ModBlockTagsProvider::new,
-                ModRecipeProvider::new);
+        DataProviderBuilder.of(ArcaneLanterns.MOD_ID)
+                .addLootProvider(ModBlockLootProvider::new, LootContextParamSets.BLOCK)
+                .addProvider(ModBlockTagsProvider::new)
+                .addRecipeProvider(ModRecipeProvider::new);
     }
 
     private static void registerEventHandlers(IEventBus eventBus) {

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "arcanelanterns:feral_lantern"
+        "recipes": "arcanelanterns:feral_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -1,6 +1,5 @@
 package fuzs.arcanelanterns.common.world.level.block;
 
-import com.mojang.serialization.MapCodec;
 import fuzs.arcanelanterns.common.init.ModRegistry;
 import fuzs.arcanelanterns.common.world.level.block.entity.LanternMakerBlockEntity;
 import fuzs.puzzleslib.common.api.block.v1.entity.TickingEntityBlock;
@@ -28,7 +27,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityBlock<LanternMakerBlockEntity> {
-    public static final MapCodec<LanternMakerBlock> CODEC = simpleCodec(LanternMakerBlock::new);
     public static final VoxelShape TOP_SHAPE = Block.box(1.0, 12.0, 1.0, 15.0, 16.0, 15.0);
     public static final VoxelShape CENTER_SHAPE = Block.box(5.0, 2.0, 5.0, 11.0, 12.0, 11.0);
     public static final VoxelShape BASE_SHAPE = Block.box(3.0, 0.0, 3.0, 13.0, 2.0, 13.0);
@@ -36,11 +34,6 @@ public class LanternMakerBlock extends BaseEntityBlock implements TickingEntityB
 
     public LanternMakerBlock(BlockBehaviour.Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override

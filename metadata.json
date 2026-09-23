@@ -1,10 +1,10 @@
 {
-    "minecraft": "26.2",
+    "minecraft": "26.3",
     "mod": {
         "id": "arcanelanterns",
         "group": "fuzs.arcanelanterns",
         "name": "Arcane Lanterns",
-        "version": "26.2.1",
+        "version": "26.3.0",
         "authors": [
             "Playelectro",
             "Fuzs"
@@ -13,22 +13,6 @@
         "license": "MIT"
     },
     "dependencies": [
-        {
-            "name": "jei",
-            "type": "optional",
-            "platforms": [
-                "fabric",
-                "neoforge"
-            ]
-        },
-        {
-            "name": "rei",
-            "type": "optional",
-            "platforms": [
-                "fabric",
-                "neoforge"
-            ]
-        },
         {
             "name": "fabricapi",
             "type": "required",
@@ -44,8 +28,24 @@
             ]
         },
         {
+            "name": "jei",
+            "type": "optional",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        },
+        {
             "name": "puzzleslib",
             "type": "required",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        },
+        {
+            "name": "rei",
+            "type": "optional",
             "platforms": [
                 "fabric",
                 "neoforge"

@@ -67,9 +67,9 @@ public class LanternMakerRenderer implements BlockEntityRenderer<LanternMakerBlo
             if (!itemStackRenderState.isEmpty()) {
                 poseStack.pushPose();
                 poseStack.translate(0.5F, 1.15F, 0.5F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(i * itemAngle + renderState.time));
+                poseStack.rotateDegrees(Axis.YP, i * itemAngle + renderState.time);
                 poseStack.translate(0.75F, 0.0F, 0.25F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(renderState.time % 360.0F));
+                poseStack.rotateDegrees(Axis.YP, renderState.time % 360.0F);
                 poseStack.translate(0.0, 0.075 * Math.sin((renderState.time + i * 10.0) / 5.0), 0.0F);
                 itemStackRenderState.submit(poseStack,
                         nodeCollector,

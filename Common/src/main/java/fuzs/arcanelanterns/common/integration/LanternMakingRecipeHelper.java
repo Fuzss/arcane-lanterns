@@ -2,33 +2,36 @@ package fuzs.arcanelanterns.common.integration;
 
 import fuzs.arcanelanterns.common.ArcaneLanterns;
 import fuzs.arcanelanterns.common.init.ModRegistry;
-import fuzs.puzzleslib.common.api.init.v3.registry.ResourceKeyHelper;
+import fuzs.puzzleslib.common.api.init.v3.registry.ContentRegistrationHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.crafting.RecipeMap;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.phys.Vec2;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 public final class LanternMakingRecipeHelper {
-    public static final Component LANTERN_MAKING_COMPONENT = ResourceKeyHelper.getComponent(ModRegistry.LANTERN_MAKING_RECIPE_TYPE.key());
+    public static final Component LANTERN_MAKING_COMPONENT = ContentRegistrationHelper.getTranslationComponent(
+            ModRegistry.LANTERN_MAKING_RECIPE_TYPE.key());
     public static final Identifier TEXTURE_LOCATION = ArcaneLanterns.id("textures/gui/lantern_making_background.png");
     public static final int DISPLAY_CATEGORY_WIDTH = 161;
     public static final int DISPLAY_CATEGORY_HEIGHT = 86;
 
-    private static RecipeMap recipeMap = RecipeMap.EMPTY;
+    private static Collection<RecipeHolder<?>> recipes = Collections.emptyList();
 
     private LanternMakingRecipeHelper() {
         // NO-OP
     }
 
-    public static RecipeMap getRecipeMap() {
-        return recipeMap;
+    public static Collection<RecipeHolder<?>> getRecipes() {
+        return recipes;
     }
 
-    public static void setRecipeMap(RecipeMap recipeMap) {
-        Objects.requireNonNull(recipeMap, "recipe map is null");
-        LanternMakingRecipeHelper.recipeMap = recipeMap;
+    public static void setRecipes(Collection<RecipeHolder<?>> recipes) {
+        Objects.requireNonNull(recipes, "recipes is null");
+        LanternMakingRecipeHelper.recipes = recipes;
     }
 
     public static Vec2 rotatePointAbout(Vec2 in, Vec2 about, double degrees) {

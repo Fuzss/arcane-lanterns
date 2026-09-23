@@ -1,30 +1,31 @@
 package fuzs.arcanelanterns.common.data.recipes;
 
 import fuzs.arcanelanterns.common.init.ModRegistry;
-import fuzs.puzzleslib.common.api.data.v2.AbstractRecipeProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.recipes.AbstractRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
-    public ModRecipeProvider(DataProviderContext context) {
-        super(context);
+    public ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput);
     }
 
     @Override
-    public void addRecipes(RecipeOutput recipeOutput) {
-        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.DECORATIONS, ModRegistry.LANTERN_MAKER_BLOCK.value())
+    public void buildRecipes() {
+        ShapedRecipeBuilder.shaped(this.items, RecipeCategory.DECORATIONS, ModRegistry.LANTERN_MAKER_BLOCK.value())
                 .define('X', Items.DIAMOND)
                 .define('#', Items.POLISHED_BASALT)
                 .pattern("#X#")
                 .pattern(" # ")
                 .pattern("###")
                 .unlockedBy(getHasName(Items.DIAMOND), this.has(Items.DIAMOND))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.LIFE_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.LIFE_LANTERN_BLOCK.value())
                 .requires(Items.EGG)
                 .requires(Items.MELON)
                 .requires(Items.GOLDEN_APPLE)
@@ -32,8 +33,8 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(Items.BONE_MEAL)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.FERAL_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.FERAL_LANTERN_BLOCK.value())
                 .requires(Items.GLOWSTONE)
                 .requires(Items.JACK_O_LANTERN)
                 .requires(Items.FIRE_CHARGE)
@@ -41,8 +42,8 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(Items.GOLD_INGOT)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.LOVE_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.LOVE_LANTERN_BLOCK.value())
                 .requires(Items.DIAMOND)
                 .requires(Items.RABBIT_FOOT)
                 .requires(Items.GOLDEN_CARROT)
@@ -51,8 +52,8 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(Items.HONEY_BOTTLE)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.WAILING_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.WAILING_LANTERN_BLOCK.value())
                 .requires(Items.GHAST_TEAR)
                 .requires(Items.WARPED_ROOTS)
                 .requires(Items.FLINT)
@@ -60,54 +61,54 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .requires(Items.INK_SAC)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.BOREAL_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.BOREAL_LANTERN_BLOCK.value())
                 .requires(Items.COBWEB)
                 .requires(Items.SNOWBALL)
                 .requires(Items.PACKED_ICE)
                 .requires(Items.QUARTZ)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.BRILLIANT_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.BRILLIANT_LANTERN_BLOCK.value())
                 .requires(Items.SHULKER_SHELL)
                 .requires(Items.PAPER)
                 .requires(Items.SNOWBALL)
                 .requires(Items.PHANTOM_MEMBRANE)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.WARDING_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.WARDING_LANTERN_BLOCK.value())
                 .requires(Items.WARPED_FUNGUS)
                 .requires(Items.PUFFERFISH)
                 .requires(Items.IRON_DOOR)
                 .requires(Items.OBSIDIAN)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.CONTAINING_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.CONTAINING_LANTERN_BLOCK.value())
                 .requires(ModRegistry.WARDING_LANTERN_BLOCK.value())
                 .requires(Items.FISHING_ROD)
                 .requires(Items.COBWEB)
                 .requires(Items.IRON_CHAIN)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.WITHERING_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.WITHERING_LANTERN_BLOCK.value())
                 .requires(Items.WITHER_ROSE)
                 .requires(Items.SOUL_SAND)
                 .requires(Items.FIREWORK_STAR)
                 .requires(Items.COAL)
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
-        LanternMakingRecipeBuilder.recipe(this.items(), ModRegistry.CLOUD_LANTERN_BLOCK.value())
+                .save(this.output);
+        LanternMakingRecipeBuilder.recipe(this.items, ModRegistry.CLOUD_LANTERN_BLOCK.value())
                 .requires(Items.PHANTOM_MEMBRANE)
                 .requires(Items.SOUL_TORCH)
                 .requires(Items.SNOW_BLOCK)
                 .requires(Items.WOOL.white())
                 .unlockedBy(getHasName(Items.LANTERN), this.has(Items.LANTERN))
                 .unlockedBy(getHasName(Items.SOUL_LANTERN), this.has(Items.SOUL_LANTERN))
-                .save(recipeOutput);
+                .save(this.output);
     }
 }

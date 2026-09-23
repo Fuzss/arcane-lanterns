@@ -13,7 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
-import net.minecraft.world.item.crafting.RecipeMap;
+
+import java.util.Collections;
 
 public class ArcaneLanternsFabricClient implements ClientModInitializer {
 
@@ -26,10 +27,10 @@ public class ArcaneLanternsFabricClient implements ClientModInitializer {
     private static void registerEventHandlers() {
         if (ModLoaderEnvironment.INSTANCE.isModLoaded("jei")) {
             ClientRecipeSynchronizedEvent.EVENT.register((Minecraft client, SynchronizedRecipes recipes) -> {
-                LanternMakingRecipeHelper.setRecipeMap(RecipeMap.create(recipes.recipes()));
+                LanternMakingRecipeHelper.setRecipes(recipes.recipes());
             });
             FabricClientPlayerEvents.PLAYER_LEAVE.register((LocalPlayer player, MultiPlayerGameMode multiPlayerGameMode, Connection connection) -> {
-                LanternMakingRecipeHelper.setRecipeMap(RecipeMap.EMPTY);
+                LanternMakingRecipeHelper.setRecipes(Collections.emptyList());
             });
         }
     }

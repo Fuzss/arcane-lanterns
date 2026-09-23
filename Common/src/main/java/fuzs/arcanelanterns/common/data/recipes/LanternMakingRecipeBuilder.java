@@ -1,7 +1,7 @@
 package fuzs.arcanelanterns.common.data.recipes;
 
 import fuzs.arcanelanterns.common.world.item.crafting.LanternMakingRecipe;
-import fuzs.puzzleslib.common.api.data.v2.recipes.TransformingRecipeOutput;
+import fuzs.puzzleslib.common.api.data.v3.recipes.TransformingRecipeOutput;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;

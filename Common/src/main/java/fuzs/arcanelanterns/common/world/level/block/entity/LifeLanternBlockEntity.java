@@ -6,6 +6,7 @@ import fuzs.arcanelanterns.common.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,12 +37,17 @@ public class LifeLanternBlockEntity extends LanternBlockEntity {
 
         BlockState targetState = serverLevel.getBlockState(targetPos);
         if (targetState.getBlock() instanceof BonemealableBlock cropBlock
-                && cropBlock.isValidBonemealTarget(serverLevel, targetPos, targetState) && cropBlock.isBonemealSuccess(
-                serverLevel,
+                && cropBlock.isValidBonemealTarget(serverLevel, targetPos, targetState, BonemealSource.INTERACTION)
+                && cropBlock.isBonemealSuccess(serverLevel,
                 serverLevel.getRandom(),
                 targetPos,
-                targetState)) {
-            cropBlock.performBonemeal(serverLevel, serverLevel.getRandom(), targetPos, targetState);
+                targetState,
+                BonemealSource.INTERACTION)) {
+            cropBlock.performBonemeal(serverLevel,
+                    serverLevel.getRandom(),
+                    targetPos,
+                    targetState,
+                    BonemealSource.INTERACTION);
             serverLevel.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, targetPos, 0);
         }
 

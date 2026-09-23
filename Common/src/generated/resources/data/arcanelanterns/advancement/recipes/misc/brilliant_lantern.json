@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "arcanelanterns:brilliant_lantern"
+        "recipes": "arcanelanterns:brilliant_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

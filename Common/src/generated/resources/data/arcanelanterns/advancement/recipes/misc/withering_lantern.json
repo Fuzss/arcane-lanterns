@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "arcanelanterns:withering_lantern"
+        "recipes": "arcanelanterns:withering_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

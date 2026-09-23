@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "arcanelanterns:life_lantern"
+        "recipes": "arcanelanterns:life_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

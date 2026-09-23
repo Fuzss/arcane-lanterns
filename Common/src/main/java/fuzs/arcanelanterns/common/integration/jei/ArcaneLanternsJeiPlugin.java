@@ -13,10 +13,14 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +45,7 @@ public class ArcaneLanternsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeMap recipeMap = LanternMakingRecipeHelper.getRecipeMap();
-        if (recipeMap.values().isEmpty()) {
+        if (LanternMakingRecipeHelper.getRecipes().isEmpty()) {
             return;
         }
 
@@ -66,12 +69,16 @@ public class ArcaneLanternsJeiPlugin implements IModPlugin {
     }
 
     private <C extends RecipeInput, T extends Recipe<C>> List<RecipeHolder<T>> getHandledRecipes(RecipeType<T> recipeType, IRecipeCategory<RecipeHolder<T>> recipeCategory) {
-        RecipeMap recipeMap = LanternMakingRecipeHelper.getRecipeMap();
-        if (recipeMap.values().isEmpty()) {
+        Collection<RecipeHolder<?>> recipes = LanternMakingRecipeHelper.getRecipes();
+        if (recipes.isEmpty()) {
             return Collections.emptyList();
         } else {
             Objects.requireNonNull(recipeCategory, "recipe category is null");
-            return recipeMap.byType(recipeType).stream().filter(recipeCategory::isHandled).toList();
+            return recipes.stream()
+                    .filter((RecipeHolder<?> recipe) -> recipe.value().getType() == recipeType)
+                    .map((RecipeHolder<?> recipe) -> (RecipeHolder<T>) recipe)
+                    .filter(recipeCategory::isHandled)
+                    .toList();
         }
     }
 
